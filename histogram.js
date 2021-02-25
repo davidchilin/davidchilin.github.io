@@ -4227,10 +4227,16 @@ function drawHistogram(){
     ageHistogram();
     allFilms();
 
-    )
+    d3.select(".embed-text").on("click",function(){
+      d3.select(".embed-input")
+        .style("display","block")
+        .attr("value","<iframe src='https://pudding.cool/2017/03/films/embed.html' frameborder='0'></iframe>")
+        ;
+      d3.select(this).text("paste this code in your site");
+    })
     ;
 
-//_________________________________________________________________________________________________________________________//
+// _________________________________________________________________________________________________________________________//
 
 //  gross map
 
