@@ -3678,18 +3678,33 @@ if (spectrumData && spectrumData.length > 0) {
         .attr("class","all-films-detail-tool-tip-title")
         .text("# of Words by Character")
 
-      var detailToolTipRows = detailToolTip
-        .append("div")
-        .attr("class","all-films-detail-tool-tip-row-container")
-        .selectAll("div")
-        .data(characterMap.get(filteredBucketData.slice(0,1)[0].script_id).values)
-        .enter()
-        .append("div")
-        .sort(function(a, b){
-          return d3.descending(+a.words, +b.words);
-        })
-        .attr("class","all-films-detail-tool-tip-row")
-        ;
+// Replace with this corrected code
+var detailToolTipRows; // Define the variable outside the if block
+
+if (filteredBucketData && filteredBucketData.length > 0) { // Add this check
+  detailToolTipRows = detailToolTip
+    .append("div")
+    .attr("class","all-films-detail-tool-tip-row-container")
+    .selectAll("div")
+    .data(characterMap.get(filteredBucketData.slice(0,1)[0].script_id).values) // This is now safe
+    .enter()
+    .append("div")
+    .sort(function(a, b){
+      return d3.descending(+a.words, +b.words);
+    })
+    .attr("class","all-films-detail-tool-tip-row");
+
+  // The next two variables need to be moved inside the check as well
+  var detailToolTipLines = detailToolTipRows
+    .append("p")
+    .attr("class","all-films-detail-tool-tip-amount")
+    // ... more code
+
+  var detailToolTipNames = detailToolTipRows
+    .append("p")
+    .attr("class","all-films-detail-tool-tip-name")
+    // ... more code
+}
 
       var detailToolTipLines = detailToolTipRows
         .append("p")
