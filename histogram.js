@@ -1359,11 +1359,9 @@ scriptNest = scriptNest.map(function(d) {
                 histogramTwoAxis.style("opacity",0).style("visibility","visible").transition().duration(500).style("opacity",1).transition().duration(0).style("opacity",null);
                 d3.select(".histogram-two-script-container").style("visibility","hidden");
 
-                var findingNemo = spectrumData.filter(function(d,i){
-                  return d.imdb_id == "tt0266543";
-                })[0]
-                ;
 
+// Replace with this code
+var exampleFilm = (spectrumData && spectrumData.length > 0) ? spectrumData[0] : {};
 
                 d3.selectAll("#disney-cell")
                   .transition()
@@ -1395,7 +1393,7 @@ scriptNest = scriptNest.map(function(d) {
                 markerBubble
                   .style("top","34px")
                   .style("left",function(d){
-                    return Math.floor(cx(findingNemo.nonWhite_percent)) -3 + "px";
+                    return Math.floor(cx(exampleFilm.nonWhite_percent)) -3 + "px";
                   })
                   .transition()
                   .duration(300)
@@ -1403,8 +1401,8 @@ scriptNest = scriptNest.map(function(d) {
                   .style("opacity",1)
                   ;
 
-                previewName.text(findingNemo.title);
-                previewData.data([findingNemo.nonWhite_percent,1-findingNemo.nonWhite_percent]).enter();
+                previewName.text(exampleFilm.title);
+                previewData.data([exampleFilm.nonWhite_percent,1-exampleFilm.nonWhite_percent]).enter();
 
                 previewData.select(".histogram-two-data-preview-percent")
                   .text(function(d,i){
@@ -2706,14 +2704,11 @@ scriptNest = scriptNest.map(function(d) {
 
       }
 
-      var castData = spectrumData.filter(function(d){
-        if(mobile){
-          return d.script_id == "2240";
-        }
-        return d.script_id == "1434";
-
-      });
-      changeMovieLines(castData[0]);
+if (spectrumData && spectrumData.length > 0) {
+  // Safely get the first movie from your data
+  var firstMovie = spectrumData[0]; 
+  changeMovieLines(firstMovie);
+}
 
       // var spriteScript = d3.select(".script-sprite")
       // ;
