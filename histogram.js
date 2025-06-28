@@ -166,11 +166,25 @@ function drawHistogram(){
     ;
 
     //get rid of the values depth
-    scriptNest = scriptNest.map(function(d){
-      var metaData = metaMap.get(+d.key);
-      return {"lines_data":metaData.lines_data,"gross":metaData.gross,"imdb_id":metaData.imdb_id,"title":metaData.title,"year":metaData.year,"nonWhite_percent":d.values.nonWhite_percent, "nonWhite_words":d.values.nonWhite_words,"total_words":d.values.total_words,"script_id":+d.key};
-    })
-    ;
+scriptNest = scriptNest.map(function(d) {
+    var metaData = metaMap.get(+d.key);
+    if (metaData) { // Check if metaData was found
+        return {
+            "lines_data": metaData.lines_data,
+            "gross": metaData.gross,
+            "imdb_id": metaData.imdb_id,
+            "title": metaData.title,
+            "year": metaData.year,
+            "nonWhite_percent": d.values.nonWhite_percent,
+            "nonWhite_words": d.values.nonWhite_words,
+            "total_words": d.values.total_words,
+            "script_id": +d.key
+        };
+    }
+    return null; // Return null if no metadata was found
+}).filter(function(d) {
+    return d != null; // Filter out the null entries
+});
 
     var scriptMap = d3.map(scriptNest,function(d){
       return d.script_id;
