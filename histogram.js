@@ -3681,30 +3681,43 @@ if (spectrumData && spectrumData.length > 0) {
 // Replace with this corrected code
 var detailToolTipRows; // Define the variable outside the if block
 
-if (filteredBucketData && filteredBucketData.length > 0) { // Add this check
-  detailToolTipRows = detailToolTip
-    .append("div")
-    .attr("class","all-films-detail-tool-tip-row-container")
-    .selectAll("div")
-    .data(characterMap.get(filteredBucketData.slice(0,1)[0].script_id).values) // This is now safe
-    .enter()
-    .append("div")
-    .sort(function(a, b){
-      return d3.descending(+a.words, +b.words);
-    })
-    .attr("class","all-films-detail-tool-tip-row");
+if (filteredBucketData && filteredBucketData.length > 0) { // The check starts here
+    detailToolTipRows = detailToolTip
+        .append("div")
+        .attr("class", "all-films-detail-tool-tip-row-container")
+        .selectAll("div")
+        .data(characterMap.get(filteredBucketData.slice(0, 1)[0].script_id).values)
+        .enter()
+        .append("div")
+        .sort(function(a, b) {
+            return d3.descending(+a.words, +b.words);
+        })
+        .attr("class", "all-films-detail-tool-tip-row");
 
-  // The next two variables need to be moved inside the check as well
-  var detailToolTipLines = detailToolTipRows
-    .append("p")
-    .attr("class","all-films-detail-tool-tip-amount")
-    // ... more code
+    // NOW MOVED INSIDE THE IF BLOCK
+    var detailToolTipLines = detailToolTipRows
+        .append("p")
+        .attr("class", "all-films-detail-tool-tip-amount")
+        .text(function(d) {
+            return commaFormat(Math.round(+d.words));
+        })
+        .style("margin-right", function(d) {
+            var totalWords = filteredBucketData.slice(0, 1)[0].total_words;
+            return 100 * (d.words / totalWords) + "px";
+        });
 
-  var detailToolTipNames = detailToolTipRows
-    .append("p")
-    .attr("class","all-films-detail-tool-tip-name")
-    // ... more code
-}
+    // ALSO MOVED INSIDE THE IF BLOCK
+    var detailToolTipNames = detailToolTipRows
+        .append("p")
+        .attr("class", "all-films-detail-tool-tip-name")
+        .text(function(d) {
+            if (d.imdb_character_name.length > characterNameLength) {
+                return d.imdb_character_name.slice(0, characterNameLength - 2) + "..."
+            }
+            return d.imdb_character_name;
+        });
+
+} // The check ends here. Nothing else should be trying to use those variables outside.
 
       var detailToolTipLines = detailToolTipRows
         .append("p")
