@@ -3866,12 +3866,12 @@ function drawHistogram() {
                       //     .attr("class","disney-bucket-label tk-futura-pt")
                       //     .text(function(d){
                       //       if(d.key == "a"){
-                      //         return "Men have 60%+ Lines"
+                      //         return "Whites have 60%+ Lines"
                       //       }
                       //       else if (d.key == "b"){
-                      //         return "race Balance, +/- 10%"
+                      //         return "Race Balance, +/- 10%"
                       //       }
-                      //       return "Women have 60%+ Lines"
+                      //       return "Nonwhites have 60%+ Lines"
                       //     })
                       //     ;
                       // }
