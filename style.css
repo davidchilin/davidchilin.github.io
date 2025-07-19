@@ -2462,7 +2462,7 @@ a {
     font-size: 27px;
     margin-top: 14px;
   }
-    
+
   .pudding-note{
     width: 95%;
     font-size: 27px;
@@ -2769,11 +2769,11 @@ a {
   .opener-title-sub{
     font-size: 25px;
   }
-    
+
   .pudding-note{
     font-size: 25px;
   }
-    
+
   #stage-one{
     font-size: 15px;
   }
@@ -2867,4 +2867,45 @@ a {
 
 .exclude {
     fill: white;
+}
+
+/* --- FIX FOR usGross INFOGRAPHIC --- */
+
+/* This makes the main scrolling container positioned correctly */
+#scroll {
+  position: relative;
+}
+
+/* This ensures the container for the chart fills the graphic area */
+.chart-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* This makes the SVG chart itself visible and correctly sized */
+.chart-container svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* This styles the trendline in the chart */
+.trendline {
+  stroke: #505050;
+  stroke-width: 2;
+}
+
+/* These styles ensure the axes text is legible */
+.axis text {
+  font-size: 12px;
+  fill: #333;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #ccc;
+  shape-rendering: crispEdges;
 }
