@@ -4765,15 +4765,16 @@ function drawHistogram() {
             histogramThree();
             ageHistogram();
             allFilms(); // using d3 for convenience
+            // using d3 for convenience
 
             // _________________________________________________________________________________________________________________________//
             // _________________________________________________________________________________________________________________________//
 
-            // gross map - CORRECTED FOR D3v3 and skin-lightness data
+            // gross map - CORRECTED FOR D3v3 and scrollama logic
 
             var container = d3.select("#scroll");
             var graphic = container.select(".scroll__graphic");
-            var chart = graphic.select(".gross-chart");
+            var chart = graphic.select(".chart-container"); // Correctly target the new container
             var text = container.select(".scroll__text");
             var step = text.selectAll(".step"); // initialize the scrollama
             var scroller = scrollama();
@@ -4785,40 +4786,11 @@ function drawHistogram() {
             var testWidth;
             var testHeight;
 
-            var isSafari =
-              /Safari/.test(navigator.userAgent) &&
-              /Apple Computer/.test(navigator.vendor);
-
-            var gX;
-            var gY;
-            var xShift;
-            var yShift;
-
-            handleResize();
-
             var grossChart = svg.append("g");
-            if (!mobile) {
-              grossChart.attr(
-                "transform",
-                "translate(" + testWidth * 0.05 + "," + 4 + ")",
-              );
-            }
-
-            if (isSafari) {
-              grossChart.attr(
-                "transform",
-                "translate(" + (xShift + 40) + "," + yShift + ")",
-              );
-            }
-
-            if (mobile) {
-              grossChart.attr("transform", "translate(" + 33.5 + "," + 4 + ")");
-            }
 
             var formatX = d3.format(".0f");
             var formatY = d3.format(".0f");
 
-            // Use the same color scale as the main chart for consistency
             var colorValue = function (d) {
               return colorScaleContinuous(+d.pct_wht);
             };
@@ -4832,32 +4804,9 @@ function drawHistogram() {
               return d.us_gross;
             });
 
-            if (!mobile) {
-              var x = d3.scale
-                .linear()
-                .domain([
-                  0,
-                  d3.max(usGross, function (d) {
-                    return d.pct_wht;
-                  }),
-                ])
-                .range([0, testWidth * 0.92]);
-            } else {
-              var x = d3.scale
-                .linear()
-                .domain([
-                  0,
-                  d3.max(usGross, function (d) {
-                    return d.pct_wht;
-                  }),
-                ])
-                .range([0, testWidth * 0.85]);
-            }
+            var x = d3.scale.linear();
+            var y = d3.scale.linear();
 
-            var y = d3.scale
-              .linear()
-              .domain([0, max])
-              .range([testHeight * 0.9, 0]);
             var xAxis = d3.svg
               .axis()
               .scale(x)
@@ -4869,16 +4818,10 @@ function drawHistogram() {
               })
               .ticks(5);
 
-            if (!mobile) {
-              var tickLength = testWidth * 0.92;
-            } else {
-              var tickLength = testWidth * 0.85;
-            }
             var yAxis = d3.svg
               .axis()
               .scale(y)
               .orient("right")
-              .tickSize(tickLength)
               .tickFormat(function (d) {
                 var s = formatY(d / 1e6);
                 return this.parentNode.nextSibling
@@ -4889,26 +4832,17 @@ function drawHistogram() {
 
             var xGroup = grossChart
               .append("g")
-              .attr("transform", "translate(0," + testHeight * 0.95 + ")")
-              .attr("class", "age-chart-distribution-percent tk-futura-pt")
-              .call(customXAxis);
+              .attr("class", "x axis tk-futura-pt");
 
             var yGroup = grossChart
               .append("g")
-              .attr("class", "age-chart-distribution-percent tk-futura-pt")
-              .call(customYAxis);
+              .attr("class", "y axis tk-futura-pt");
 
             var circles = grossChart
               .selectAll("circle")
               .data(usGross)
               .enter()
               .append("circle")
-              .attr("cx", function (d) {
-                return x(+d.pct_wht);
-              })
-              .attr("cy", function (d) {
-                return y(+d.us_gross);
-              })
               .attr("r", "4")
               .style("fill", colorValue)
               .style("fill-opacity", 1);
@@ -4932,54 +4866,9 @@ function drawHistogram() {
 
             var trendline = grossChart
               .append("line")
-              .attr("x1", x(0))
-              .attr("y1", y(intercept))
+              .attr("class", "trendline")
               .style("stroke-opacity", 0.8)
               .style("stroke-width", 2);
-
-            if (!mobile) {
-              trendline
-                .attr(
-                  "x2",
-                  x(
-                    d3.max(usGross, function (d) {
-                      return d.pct_wht;
-                    }),
-                  ),
-                )
-                .attr(
-                  "y2",
-                  y(
-                    d3.max(usGross, function (d) {
-                      return d.pct_wht;
-                    }) *
-                      slope +
-                      intercept,
-                  ),
-                )
-                .style("stroke", "#3ecdfd");
-            } else {
-              trendline
-                .style("stroke", "#505050")
-                .attr(
-                  "x2",
-                  x(
-                    d3.max(usGross, function (d) {
-                      return d.pct_wht;
-                    }),
-                  ),
-                )
-                .attr(
-                  "y2",
-                  y(
-                    d3.max(usGross, function (d) {
-                      return d.pct_wht;
-                    }) *
-                      slope +
-                      intercept,
-                  ),
-                );
-            }
 
             function customXAxis(g) {
               g.call(xAxis);
@@ -5009,7 +4898,6 @@ function drawHistogram() {
               };
               var xBar = (xSeries.reduce(reduceSumFunc) * 1.0) / xSeries.length;
               var yBar = (ySeries.reduce(reduceSumFunc) * 1.0) / ySeries.length;
-
               var ssXX = xSeries
                 .map(function (d) {
                   return Math.pow(d - xBar, 2);
@@ -5032,84 +4920,80 @@ function drawHistogram() {
             }
 
             function handleResize() {
-              if (
-                /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-                  navigator.userAgent,
-                )
-              ) {
-                viewportWidth = Math.max(
-                  document.documentElement.clientWidth,
-                  window.innerWidth || 0,
-                );
-                viewportHeight = Math.max(
-                  document.documentElement.clientHeight,
-                  window.innerHeight || 0,
-                );
-              }
-
-              var smallMobile = false;
-
-              var stepHeight = 158 + "px";
-              step.style("height", stepHeight);
+              var stepHeight = Math.floor(window.innerHeight * 0.75);
+              step.style("height", stepHeight + "px");
 
               var bodyWidth = d3.select("body").node().offsetWidth;
-              graphic.style("width", bodyWidth + "px");
+              graphic
+                .style("width", bodyWidth + "px")
+                .style("height", window.innerHeight + "px");
 
-              var chartMargin = 32;
-              var textWidth = text.node().offsetWidth;
-              var chartWidth = 900;
-              if (mobile) {
-                chartWidth = viewportWidth * 0.92;
-                if (viewportWidth < 325) {
-                  smallMobile = true;
-                }
-                if (smallMobile) {
-                  chartWidth = 306;
-                }
-              }
-
-              var safariWidth = chartWidth;
-
-              if (isSafari) {
-                chartWidth = window.innerWidth;
-              }
-              var chartHeight = 370;
-              chart
-                .style("width", chartWidth + "px")
-                .style("height", chartHeight + "px");
-
-              if (isSafari) {
-                testWidth = safariWidth;
-              } else {
-                testWidth = chartWidth;
-              }
-              testHeight = chartHeight;
-
-              if (!mobile) {
-                xShift = Math.floor((window.innerWidth - testWidth) / 2);
-                yShift = -30;
-              } else {
-                xShift = Math.floor((window.innerWidth - testWidth) / 2) - 7;
-                yShift = -30;
-              }
+              var chartMargin = { top: 20, right: 40, bottom: 40, left: 40 };
+              testWidth =
+                chart.node().offsetWidth - chartMargin.left - chartMargin.right;
+              testHeight =
+                chart.node().offsetHeight -
+                chartMargin.top -
+                chartMargin.bottom;
 
               svg
-                .attr("width", chartWidth + "px")
-                .attr("height", chartHeight + "px");
+                .attr("width", testWidth + chartMargin.left + chartMargin.right)
+                .attr(
+                  "height",
+                  testHeight + chartMargin.top + chartMargin.bottom,
+                );
 
-              if (!isSafari) {
-                svg.attr(
-                  "transform",
-                  "translate(" + xShift + "," + yShift + ")",
+              grossChart.attr(
+                "transform",
+                "translate(" + chartMargin.left + "," + chartMargin.top + ")",
+              );
+
+              x.range([0, testWidth]);
+              y.range([testHeight, 0]);
+
+              x.domain([
+                0,
+                d3.max(usGross, function (d) {
+                  return d.pct_wht;
+                }),
+              ]);
+
+              xGroup
+                .attr("transform", "translate(0," + testHeight + ")")
+                .call(customXAxis);
+              yAxis.tickSize(testWidth);
+              yGroup.call(customYAxis);
+
+              circles
+                .attr("cx", function (d) {
+                  return x(+d.pct_wht);
+                })
+                .attr("cy", function (d) {
+                  return y(+d.us_gross);
+                });
+
+              trendline
+                .attr("x1", x(0))
+                .attr("y1", y(intercept))
+                .attr(
+                  "x2",
+                  x(
+                    d3.max(usGross, function (d) {
+                      return d.pct_wht;
+                    }),
+                  ),
+                )
+                .attr(
+                  "y2",
+                  y(
+                    d3.max(usGross, function (d) {
+                      return d.pct_wht;
+                    }) *
+                      slope +
+                      intercept,
+                  ),
                 );
-              }
-              if (!mobile) {
-                svg.attr(
-                  "transform",
-                  "translate(" + xShift + "," + yShift + ")",
-                );
-              }
-              buffer.style("height", chartHeight + "px");
+
               scroller.resize();
             }
 
@@ -5199,63 +5083,14 @@ function drawHistogram() {
             function handleContainerEnter(response) {
               graphic.classed("is-fixed", true);
               graphic.classed("is-bottom", false);
-
-              if (trigger == 0) {
-                trendline.transition().duration(1).style("stroke", "#505050");
-                trendline
-                  .transition()
-                  .duration(800)
-                  .attr(
-                    "x2",
-                    x(
-                      d3.max(usGross, function (d) {
-                        return d.pct_wht;
-                      }),
-                    ),
-                  )
-                  .attr(
-                    "y1",
-                    y(
-                      d3.max(usGross, function (d) {
-                        return d.pct_wht;
-                      }) *
-                        slope +
-                        intercept,
-                    ),
-                  );
-              }
             }
             function handleContainerExit(response) {
               graphic.classed("is-fixed", false);
               graphic.classed("is-bottom", response.direction === "down");
-
-              if (trigger == 0) {
-                setTimeout(function () {
-                  trendline
-                    .transition()
-                    .duration(800)
-                    .attr("x2", 0)
-                    .attr(
-                      "y1",
-                      y(
-                        d3.max(usGross, function (d) {
-                          return d.pct_wht;
-                        }) *
-                          slope +
-                          intercept,
-                      ),
-                    );
-                }, 1000);
-              }
             }
-
             function init() {
-              // Wrap the setup in an init function
               if (!mobile) {
-                // 1. force a resize on load to ensure proper dimensions are sent to scrollama
                 handleResize();
-
-                // 2. setup the scroller passing options
                 scroller
                   .setup({
                     container: "#scroll",
@@ -5267,161 +5102,10 @@ function drawHistogram() {
                   .onContainerEnter(handleContainerEnter)
                   .onContainerExit(handleContainerExit);
               }
-              // setup resize event
               window.addEventListener("resize", handleResize);
             }
 
-            // kick things off
-            //init();
-
-            // var romComMap = d3.map(romCom,function(d,i){
-            //   return d.imdb_id;
-            // });
-            //
-            // console.log(romComMap);
-            //
-            // console.log(scriptNest);
-            // var romComArray = []
-            //
-            // for (script in scriptNest){
-            //   if(romComMap.has(scriptNest[script].imdb_id)){
-            //     romComArray.push(scriptNest[script]);
-            //   }
-            // }
-            //
-            // console.log(romComArray);
-            //
-            // console.log(d3.mean(romComArray,function(d,i){return d.nonWhite_percent;}));
-
-            // var whiteLead = 0;
-            // var nonWhiteLead = 0;
-            //
-            // var whiteSupport = 0;
-            // var nonWhiteSupport = 0;
-            //
-            // for (script in characterNest){
-            //   nonWhiteCount = 0;
-            //
-            //   // if(characterNest[script].values[characterNest[script].values.length-1].race == "w"){
-            //   //   whiteLead = whiteLead + 1;
-            //   // }
-            //   if(characterNest[script].values[characterNest[script].values.length-1].race == "nw"){
-            //     nonWhiteCount = nonWhiteCount + 1;
-            //   }
-            //     if(characterNest[script].values[characterNest[script].values.length-2].race == "nw"){
-            //       nonWhiteCount = nonWhiteCount + 1;
-            //     }
-            //     // if(characterNest[script].values[characterNest[script].values.length-2].race == "w"){
-            //     //   whiteSupport = whiteSupport + 1;
-            //     // }
-            //     if(characterNest[script].values.length > 2){
-            //       if(characterNest[script].values[characterNest[script].values.length-3].race == "nw"){
-            //         nonWhiteCount = nonWhiteCount + 1;
-            //       }
-            //       // if(characterNest[script].values[characterNest[script].values.length-3].race == "w"){
-            //       //   whiteSupport = whiteSupport + 1;
-            //       // }
-            //     }
-            //     if (nonWhiteCount > 1){
-            //       nonWhiteSupport = nonWhiteSupport + 1;
-            //     }
-            // }
-
-            //
-            // lineByLine = lineByLine.filter(function(d,i){
-            //   return d.script_id  < 4;
-            // });
-
-            // var lineArray = [];
-            //
-            // for (item in lineByLine){
-            //   var array = lineByLine[item].line_indexes.split(", ");
-            //   for (line in array){
-            //     var row = {line_index:array[line],race:lineByLine[item].actor_race, script_id:lineByLine[item].script_id};
-            //     lineArray.push(row);
-            //   }
-            // }
-            // //
-            //
-            // var lineNest = d3.nest()
-            //   .key(function(d){
-            //     return d.script_id;
-            //   })
-            //   .sortValues(function(a,b) {
-            //     return +a.line_index - +b.line_index;
-            //   })
-            //   .entries(lineArray);
-            //
-            //   for (script in lineNest){
-            //     var lineBreakdown = {};
-            //     for(line in lineNest[script].values){
-            //       var minute = Math.ceil((+line+1)/7);
-            //
-            //       if (minute in lineBreakdown){
-            //         if(lineNest[script].values[line].race == "w"){
-            //           lineBreakdown[minute][0] = lineBreakdown[minute][0] + 1;
-            //         }
-            //         else{
-            //           lineBreakdown[minute][1] = lineBreakdown[minute][1] + 1
-            //         }
-            //       }
-            //       else{
-            //         lineBreakdown[minute] = [0,0];
-            //         if(lineNest[script].values[line].race == "w"){
-            //           lineBreakdown[minute][0] = 1;
-            //         }
-            //         else{
-            //           lineBreakdown[minute][1] = 1;
-            //         }
-            //       }
-            //
-            //     }
-            //     var lineData = [];
-            //     var minutes = Object.keys(lineBreakdown);
-            //     for (minute in minutes){
-            //       lineData.push(lineBreakdown[minutes[minute]])
-            //     }
-            //     var lineString = "";
-            //     for (minuteItem in lineData){
-            //       // console.log(lineData[minuteItem]);
-            //       lineString = lineString + lineData[minuteItem][0];
-            //     }
-            //     // console.log(lineString);
-            //     scriptCsv.push([lineNest[script].key,lineString])
-            //   }
-
-            // var lineBreakdown = {};
-            //
-            // for (var line in valuesLines){
-            //   var minute = Math.ceil((+line+1)/14);
-            //   if (minute in lineBreakdown){
-            //     if(valuesLines[line] == "w"){
-            //       lineBreakdown[minute][0] = lineBreakdown[minute][0] + 1;
-            //     }
-            //     else{
-            //       lineBreakdown[minute][1] = lineBreakdown[minute][1] + 1
-            //     }
-            //   }
-            //   else{
-            //     lineBreakdown[minute] = [0,0];
-            //     if(valuesLines[line] == "w"){
-            //       lineBreakdown[minute][0] = 1;
-            //     }
-            //     else{
-            //       lineBreakdown[minute][1] = 1;
-            //     }
-            //   }
-            // }
-            //
-            // var lineData = [];
-            // var minutes = Object.keys(lineBreakdown);
-            // for (minute in minutes){
-            //   lineData.push(lineBreakdown[minutes[minute]])
-            // }
-
-            // //lines_data.csv
-            // });
-            // //rom-com.csv
+            init();
           });
 
           //genre_mapping.csv
