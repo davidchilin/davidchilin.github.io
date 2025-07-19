@@ -2890,7 +2890,7 @@ function drawHistogram() {
                   "visible",
                 );
               }
-
+              //////////////
               function changeMovieLines(data) {
                 var stageTwoElement = ".star-chart";
                 if (mobile) {
@@ -2949,7 +2949,7 @@ function drawHistogram() {
                   var o1 = +a.words;
                   var o2 = +b.words;
 
-                  if (o1 < o2) return -1; // Corrected sort order for descending
+                  if (o1 < o2) return -1;
                   if (o1 > o2) return 1;
                   return 0;
                 });
@@ -2961,21 +2961,23 @@ function drawHistogram() {
                   })
                   .enter()
                   .append("div")
+                  .sort(function (a, b) {
+                    return d3.descending(+a.words, +b.words);
+                  })
                   .attr("class", "script-lines-cast-row");
                 scriptLinesCast
                   .style("opacity", 0)
                   .transition()
-                  .duration(300)
+                  .duration(0)
                   .delay(function (d, i) {
-                    return 500 + i * 100; // Added delay to animate in
+                    return i * 100;
                   })
-                  .style("opacity", 1);
+                  .style("opacity", null);
 
                 scriptLinesCast
                   .append("p")
-                  .attr("class", "script-lines-cast-name") // This is the NAME element
+                  .attr("class", "script-lines-cast-name")
                   .text(function (d) {
-                    // BUG: It was incorrectly given the WORD COUNT
                     return commaFormat(Math.round(+d.words));
                   });
 
@@ -2995,9 +2997,8 @@ function drawHistogram() {
 
                 scriptLinesCast
                   .append("p")
-                  .attr("class", "script-lines-cast-amount") // This is the AMOUNT element
+                  .attr("class", "script-lines-cast-amount")
                   .text(function (d) {
-                    // BUG: It was incorrectly given the CHARACTER NAME
                     if (d.imdb_character_name.length > 14) {
                       return d.imdb_character_name.slice(0, 12) + "...";
                     }
@@ -3012,6 +3013,7 @@ function drawHistogram() {
                   });
               }
 
+              //////////////
               if (spectrumData && spectrumData.length > 0) {
                 var castData = spectrumData[0];
                 if (castData) {
