@@ -5248,20 +5248,28 @@ function drawHistogram() {
                 }, 1000);
               }
             }
-            if (!mobile) {
-              scroller
-                .setup({
-                  container: "#scroll",
-                  graphic: ".scroll__graphic",
-                  text: ".scroll__text",
-                  step: ".scroll__text .step",
-                })
-                .onStepEnter(handleStepEnter)
-                .onContainerEnter(handleContainerEnter)
-                .onContainerExit(handleContainerExit);
+
+            function init() {
+              // Wrap the setup in an init function
+              if (!mobile) {
+                // 1. force a resize on load to ensure proper dimensions are sent to scrollama
+                handleResize();
+
+                // 2. setup the scroller passing options
+                scroller
+                  .setup({
+                    container: "#scroll",
+                    graphic: ".scroll__graphic",
+                    text: ".scroll__text",
+                    step: ".scroll__text .step",
+                  })
+                  .onStepEnter(handleStepEnter)
+                  .onContainerEnter(handleContainerEnter)
+                  .onContainerExit(handleContainerExit);
+              }
+              // setup resize event
+              window.addEventListener("resize", handleResize);
             }
-            window.addEventListener("resize", handleResize);
-            //}
 
             // kick things off
             //init();
