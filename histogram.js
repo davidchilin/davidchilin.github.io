@@ -1654,11 +1654,14 @@ function drawHistogram() {
                         );
 
                         // Replace with this code
-                        var exampleFilm =
-                          spectrumData && spectrumData.length > 0
-                            ? spectrumData[0]
-                            : {};
+                        //                        var exampleFilm =
+                        //                          spectrumData && spectrumData.length > 0
+                        //                           ? spectrumData[0]
+                        //                            : {};
 
+                        var exampleFilm = spectrumData.filter(function (d, i) {
+                          return d.imdb_id == "tt0435761"; // Toy Story 3
+                        })[0];
                         d3.selectAll("#disney-cell")
                           .transition()
                           .duration(500)
@@ -2935,224 +2938,7 @@ function drawHistogram() {
                   })
                   .attr("class", "script-lines-title-sub-percent");
 
-                var scriptLines = scriptLinesContainer
-                  .append("div")
-                  .attr("class", "histogram-two-script-data");
-                // var valuesLines = [];
-                // var linesScale = d3.scale.quantize().domain([.6,1]).range(["w","nw"])
-                // for (var line in d3.range(800)){
-                //   valuesLines.push(linesScale(Math.random()));
-                // }
-                // var lineBreakdown = {};
-                //
-                // for (var line in valuesLines){
-                //   var minute = Math.ceil((+line+1)/14);
-                //   if (minute in lineBreakdown){
-                //     if(valuesLines[line] == "w"){
-                //       lineBreakdown[minute][0] = lineBreakdown[minute][0] + 1;
-                //     }
-                //     else{
-                //       lineBreakdown[minute][1] = lineBreakdown[minute][1] + 1
-                //     }
-                //   }
-                //   else{
-                //     lineBreakdown[minute] = [0,0];
-                //     if(valuesLines[line] == "w"){
-                //       lineBreakdown[minute][0] = 1;
-                //     }
-                //     else{
-                //       lineBreakdown[minute][1] = 1;
-                //     }
-                //   }
-                // }
-                //
-                // var lineData = [];
-                // var minutes = Object.keys(lineBreakdown);
-                // for (minute in minutes){
-                //   lineData.push(lineBreakdown[minutes[minute]])
-                // }
-
-                var lineData = [];
-
-                var lineInfo = data.lines_data.match(/.{1,2}/g);
-                for (line in lineInfo) {
-                  var minuteTotal =
-                    +lineInfo[line].slice(0, 1) + +lineInfo[line].slice(1, 2);
-                  var row = [minuteTotal, 14 - minuteTotal];
-                  lineData.push(row);
-                }
-
-                var scriptLinesDataLines = scriptLines
-                  .selectAll("div")
-                  .data(lineData)
-                  .enter()
-                  .append("div")
-                  .attr("class", "script-line-minute")
-                  .style("opacity", 0);
-                scriptLinesDataLines
-                  .transition()
-                  .duration(0)
-                  .delay(function (d, i) {
-                    return i * 10;
-                  })
-                  .style("opacity", 1);
-
-                var scriptLinenonWhiteScale = d3.scale
-                  .linear()
-                  .domain([0, 14])
-                  .range(["#CCC", nonWhiteColor]);
-                var scriptLinewhiteScale = d3.scale
-                  .linear()
-                  .domain([0, 14])
-                  .range(["#CCC", whiteColor]);
-                var barHeight = 50;
-
-                scriptLinesDataLines
-                  .selectAll("div")
-                  .data(function (d) {
-                    return d;
-                  })
-                  .enter()
-                  .append("div")
-                  .attr("class", "script-line-minute-bar")
-                  .style("background-color", function (d, i) {
-                    if (i == 1) {
-                      return scriptLinenonWhiteScale(d);
-                    }
-                    return scriptLinewhiteScale(d);
-                  })
-                  .style("height", function (d, i) {
-                    return ((d / 14) * barHeight) / 2 + "px";
-                  })
-                  .style("top", function (d, i) {
-                    if (i == 1) {
-                      return 100 - ((d / 14) * barHeight) / 2 + "px";
-                    }
-                    return 100 + 2 + "px";
-                  });
-
-                var startLabel = scriptLinesDataLines
-                  .filter(function (d, i) {
-                    return i == 0;
-                  })
-                  .append("div")
-                  .attr(
-                    "class",
-                    "histogram-two-script-data-axis-box tk-futura-pt",
-                  )
-                  .style("top", function (d, i) {
-                    return 105 + ((d[0] / 14) * barHeight) / 2 + "px";
-                  })
-                  .style("height", function (d, i) {
-                    var height = barHeight / 2 - ((d[0] / 14) * barHeight) / 2;
-                    return height + "px";
-                  })
-                  .append("p")
-                  .attr(
-                    "class",
-                    "histogram-two-script-data-axis-label histogram-two-script-data-axis-label-start tk-futura-pt",
-                  )
-                  .text("Start of Film");
-                var endLabel = scriptLinesDataLines
-                  .filter(function (d, i) {
-                    return i == lineData.length - 1;
-                  })
-                  .append("div")
-                  .attr(
-                    "class",
-                    "histogram-two-script-data-axis-box tk-futura-pt",
-                  )
-                  .style("top", function (d, i) {
-                    return 105 + ((d[0] / 14) * barHeight) / 2 + "px";
-                  })
-                  .style("height", function (d, i) {
-                    var height = barHeight / 2 - ((d[0] / 14) * barHeight) / 2;
-                    return height + "px";
-                  })
-                  .append("p")
-                  .attr(
-                    "class",
-                    "histogram-two-script-data-axis-label histogram-two-script-data-axis-label-start tk-futura-pt",
-                  )
-                  .text("End of Film");
-                function ordinal_suffix_of(i) {
-                  var j = i % 10,
-                    k = i % 100;
-                  if (j == 1 && k != 11) {
-                    return i + "st";
-                  }
-                  if (j == 2 && k != 12) {
-                    return i + "nd";
-                  }
-                  if (j == 3 && k != 13) {
-                    return i + "rd";
-                  }
-                  return i + "th";
-                }
-
-                var midLabel = scriptLinesDataLines
-                  .filter(function (d, i) {
-                    return i == Math.round((lineData.length - 1) / 2);
-                  })
-                  .append("div")
-                  .attr(
-                    "class",
-                    "histogram-two-script-data-axis-box tk-futura-pt",
-                  )
-                  .style("top", function (d, i) {
-                    return 105 + ((d[0] / 14) * barHeight) / 2 + "px";
-                  })
-                  .style("height", function (d, i) {
-                    var height = barHeight / 2 - ((d[0] / 14) * barHeight) / 2;
-                    return height + "px";
-                  })
-                  .append("p")
-                  .attr(
-                    "class",
-                    "histogram-two-script-data-axis-label histogram-two-script-data-axis-label-start tk-futura-pt",
-                  )
-                  .text(function (d) {
-                    var num = Math.round((lineData.length - 1) / 2);
-
-                    return ordinal_suffix_of(num) + " MINUTE OF DIALOGUE";
-                  })
-                  .style("bottom", "-34px")
-                  .style("line-height", "10px");
-                scriptLines
-                  .append("p")
-                  .attr(
-                    "class",
-                    "histogram-two-script-data-label histogram-two-script-data-label-nonwhite tk-futura-pt",
-                  )
-                  .style("color", nonWhiteColor)
-                  .text("Darker-skinned actor Lines");
-
-                scriptLines
-                  .append("p")
-                  .attr("class", "histogram-two-script-data-label tk-futura-pt")
-                  .style("color", whiteColor)
-                  .text("Lighter-skinned actor Lines");
-
-                scriptLines
-                  .append("p")
-                  .attr("class", "script-lines-cast-title-two")
-                  .text(function (d) {
-                    return "Dialogue by Skin Lightness (by minute)";
-                  });
-
-                // scriptLines
-                //   .append("p")
-                //   .attr("class","histogram-two-script-data-axis-count histogram-two-script-data-axis-count-men tk-futura-pt")
-                //   .text("82%")
-                //   .style("color",whiteColor)
-                //   ;
-                //
-                // scriptLines
-                //   .append("p")
-                //   .attr("class","histogram-two-script-data-axis-count histogram-two-script-data-axis-count-women tk-futura-pt")
-                //   .text("18%")
-                //   .style("color",nonWhiteColor)
-                //   ;
+                // --- The minute-by-minute chart code has been completely removed ---
 
                 var scriptLinesCastContainer = scriptLinesContainer
                   .append("div")
@@ -3163,8 +2949,8 @@ function drawHistogram() {
                   var o1 = +a.words;
                   var o2 = +b.words;
 
-                  if (o1 < o2) return -1;
-                  if (o1 > o2) return 1;
+                  if (o1 < o2) return 1; // Corrected sort order for descending
+                  if (o1 > o2) return -1;
                   return 0;
                 });
 
@@ -3175,24 +2961,24 @@ function drawHistogram() {
                   })
                   .enter()
                   .append("div")
-                  .sort(function (a, b) {
-                    return d3.descending(+a.words, +b.words);
-                  })
                   .attr("class", "script-lines-cast-row");
                 scriptLinesCast
                   .style("opacity", 0)
                   .transition()
-                  .duration(0)
+                  .duration(300)
                   .delay(function (d, i) {
-                    return i * 100;
+                    return 500 + i * 100; // Added delay to animate in
                   })
-                  .style("opacity", null);
+                  .style("opacity", 1);
 
                 scriptLinesCast
                   .append("p")
                   .attr("class", "script-lines-cast-name")
                   .text(function (d) {
-                    return commaFormat(Math.round(+d.words));
+                    if (d.imdb_character_name.length > 14) {
+                      return d.imdb_character_name.slice(0, 12) + "...";
+                    }
+                    return d.imdb_character_name;
                   });
 
                 scriptLinesCast
@@ -3213,10 +2999,7 @@ function drawHistogram() {
                   .append("p")
                   .attr("class", "script-lines-cast-amount")
                   .text(function (d) {
-                    if (d.imdb_character_name.length > 14) {
-                      return d.imdb_character_name.slice(0, 12) + "...";
-                    }
-                    return d.imdb_character_name;
+                    return commaFormat(Math.round(+d.words));
                   });
 
                 scriptLinesCastContainer
