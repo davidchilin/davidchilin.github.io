@@ -4764,22 +4764,21 @@ function drawHistogram() {
             // disneySample();
             histogramThree();
             ageHistogram();
-            allFilms();
+            allFilms(); // using d3 for convenience
 
             // _________________________________________________________________________________________________________________________//
+            // _________________________________________________________________________________________________________________________//
 
-            //  gross map
+            // gross map - CORRECTED FOR D3v3 and skin-lightness data
 
-            // using d3 for convenience
-            var container = d3v4.select("#scroll");
+            var container = d3.select("#scroll");
             var graphic = container.select(".scroll__graphic");
             var chart = graphic.select(".gross-chart");
             var text = container.select(".scroll__text");
-            var step = text.selectAll(".step");
-            // initialize the scrollama
+            var step = text.selectAll(".step"); // initialize the scrollama
             var scroller = scrollama();
 
-            var buffer = d3v4.select(".step-buffer");
+            var buffer = d3.select(".step-buffer");
 
             var svg = chart.append("svg");
 
@@ -4798,22 +4797,11 @@ function drawHistogram() {
             handleResize();
 
             var grossChart = svg.append("g");
-            //.attr("webkit-transform", "translate(" + testWidth*0.05 + "," + 4 + ")");
-
             if (!mobile) {
-              grossChart
-                .attr(
-                  "ms-transform",
-                  "translate(" + testWidth * 0.05 + "," + 4 + ")",
-                )
-                .attr(
-                  "moz-transform",
-                  "translate(" + testWidth * 0.05 + "," + 4 + ")",
-                )
-                .attr(
-                  "transform",
-                  "translate(" + testWidth * 0.05 + "," + 4 + ")",
-                );
+              grossChart.attr(
+                "transform",
+                "translate(" + testWidth * 0.05 + "," + 4 + ")",
+              );
             }
 
             if (isSafari) {
@@ -4824,73 +4812,56 @@ function drawHistogram() {
             }
 
             if (mobile) {
-              grossChart.attr(
-                "webkit-transform",
-                "translate(" + 33.5 + "," + 4 + ")",
-              );
-              //       grossChart.attr("ms-transform", "translate(" + 33.5 + "," + 4 + ")");
-              //       grossChart.attr("moz-transform", "translate(" + 33.5 + "," + 4 + ")");
-              //       grossChart.attr("transform", "translate(" + 33.5 + "," + 4 + ")");
+              grossChart.attr("transform", "translate(" + 33.5 + "," + 4 + ")");
             }
 
-            var formatX = d3v4.format(".0f");
-            var formatY = d3v4.format(".0f");
+            var formatX = d3.format(".0f");
+            var formatY = d3.format(".0f");
 
+            // Use the same color scale as the main chart for consistency
             var colorValue = function (d) {
-              return colorScale(+d.pct_wht);
+              return colorScaleContinuous(+d.pct_wht);
             };
-            var interpolateOne = d3v4.interpolate("#3ecdfd", "#ddd");
-            var interpolateTwo = d3v4.interpolate("#ddd", "#fecb45");
-
-            var colorScale = d3v4
-              .scaleLinear()
-              .domain([0, 0.33, 0.5, 0.66, 1])
-              .range([
-                "#3ecdfd",
-                interpolateOne(0.5),
-                "#ddd",
-                interpolateTwo(0.5),
-                "#fecb45",
-              ]);
 
             usGross.forEach(function (d) {
               d.us_gross = +d.us_gross;
               d.pct_wht = +d.pct_wht;
             });
 
-            var max = d3v4.max(usGross, function (d) {
+            var max = d3.max(usGross, function (d) {
               return d.us_gross;
             });
 
             if (!mobile) {
-              var x = d3v4
-                .scaleLinear()
+              var x = d3.scale
+                .linear()
                 .domain([
                   0,
-                  d3v4.max(usGross, function (d) {
+                  d3.max(usGross, function (d) {
                     return d.pct_wht;
                   }),
                 ])
                 .range([0, testWidth * 0.92]);
             } else {
-              var x = d3v4
-                .scaleLinear()
+              var x = d3.scale
+                .linear()
                 .domain([
                   0,
-                  d3v4.max(usGross, function (d) {
+                  d3.max(usGross, function (d) {
                     return d.pct_wht;
                   }),
                 ])
                 .range([0, testWidth * 0.85]);
             }
 
-            var y = d3v4
-              .scaleLinear()
+            var y = d3.scale
+              .linear()
               .domain([0, max])
               .range([testHeight * 0.9, 0]);
-
-            var xAxis = d3v4
-              .axisBottom(x)
+            var xAxis = d3.svg
+              .axis()
+              .scale(x)
+              .orient("bottom")
               .tickSize(0)
               .tickFormat(function (d) {
                 var s = formatX(d * 100);
@@ -4903,9 +4874,10 @@ function drawHistogram() {
             } else {
               var tickLength = testWidth * 0.85;
             }
-
-            var yAxis = d3v4
-              .axisRight(y)
+            var yAxis = d3.svg
+              .axis()
+              .scale(y)
+              .orient("right")
               .tickSize(tickLength)
               .tickFormat(function (d) {
                 var s = formatY(d / 1e6);
@@ -4917,16 +4889,9 @@ function drawHistogram() {
 
             var xGroup = grossChart
               .append("g")
-              //       .attr("webkit-transform", "translate(0," + testHeight*0.95 + ")")
-              //       .attr("moz-transform", "translate(0," + testHeight*0.95 + ")")
-              //       .attr("ms-transform", "translate(0," + testHeight*0.95 + ")")
               .attr("transform", "translate(0," + testHeight * 0.95 + ")")
               .attr("class", "age-chart-distribution-percent tk-futura-pt")
               .call(customXAxis);
-
-            // if(isSafari) {
-            //   xGroup.attr("transform", "translate(0," + (chart.node().offsetHeight - 10)*0.83 + ")");
-            // }
 
             var yGroup = grossChart
               .append("g")
@@ -4945,11 +4910,8 @@ function drawHistogram() {
                 return y(+d.us_gross);
               })
               .attr("r", "4")
-              .attr("fill", colorValue)
-              .attr("fill-opacity", 1);
-            // .attr("stroke", "#FFFFFF")
-            // .attr("stroke-width", 0.2)
-            // .attr("stroke-opacity", 0.3);
+              .style("fill", colorValue)
+              .style("fill-opacity", 1);
 
             var firstValues = function (d) {
               return y(+d.us_gross);
@@ -4962,7 +4924,6 @@ function drawHistogram() {
             var ySeries = usGross.map(function (d) {
               return parseFloat(d.us_gross);
             });
-
             var leastSquaresCoeff = leastSquares(xSeries, ySeries);
 
             var slope = leastSquaresCoeff[0];
@@ -4973,30 +4934,15 @@ function drawHistogram() {
               .append("line")
               .attr("x1", x(0))
               .attr("y1", y(intercept))
-              .attr("stroke-opacity", 0.8)
-              .attr("stroke-width", 2);
+              .style("stroke-opacity", 0.8)
+              .style("stroke-width", 2);
 
             if (!mobile) {
               trendline
-                .attr("x2", x(0))
-                .attr(
-                  "y2",
-                  y(
-                    d3v4.max(usGross, function (d) {
-                      return d.pct_wht;
-                    }) *
-                      slope +
-                      intercept,
-                  ),
-                )
-                .attr("stroke", "#3ecdfd");
-            } else {
-              trendline
-                .attr("stroke", "#505050")
                 .attr(
                   "x2",
                   x(
-                    d3v4.max(usGross, function (d) {
+                    d3.max(usGross, function (d) {
                       return d.pct_wht;
                     }),
                   ),
@@ -5004,7 +4950,29 @@ function drawHistogram() {
                 .attr(
                   "y2",
                   y(
-                    d3v4.max(usGross, function (d) {
+                    d3.max(usGross, function (d) {
+                      return d.pct_wht;
+                    }) *
+                      slope +
+                      intercept,
+                  ),
+                )
+                .style("stroke", "#3ecdfd");
+            } else {
+              trendline
+                .style("stroke", "#505050")
+                .attr(
+                  "x2",
+                  x(
+                    d3.max(usGross, function (d) {
+                      return d.pct_wht;
+                    }),
+                  ),
+                )
+                .attr(
+                  "y2",
+                  y(
+                    d3.max(usGross, function (d) {
                       return d.pct_wht;
                     }) *
                       slope +
@@ -5017,34 +4985,28 @@ function drawHistogram() {
               g.call(xAxis);
               g.select(".domain").remove();
               g.selectAll(".tick text")
-                .style("font-size", 13)
+                .style("font-size", "13px")
                 .style("font-weight", 500);
             }
 
             function customYAxis(g) {
-              var s = g.selection ? g.selection() : g;
               g.call(yAxis);
-              s.select(".domain").remove();
-              s.selectAll("line")
-                .attr("stroke", "#777")
-                .attr("stroke-opacity", 0.4)
-                .attr("stroke-dasharray", "5,4");
-              s.selectAll(".tick text")
+              g.select(".domain").remove();
+              g.selectAll(".tick line")
+                .style("stroke", "#777")
+                .style("stroke-opacity", 0.4)
+                .style("stroke-dasharray", "5,4");
+              g.selectAll(".tick text")
                 .attr("x", -35)
                 .attr("dy", -4)
-                .style("font-size", 13)
+                .style("font-size", "13px")
                 .style("font-weight", 500);
-              if (s !== g)
-                g.selectAll(".tick text")
-                  .attrTween("x", null)
-                  .attrTween("dy", null);
             }
 
             function leastSquares(xSeries, ySeries) {
               var reduceSumFunc = function (prev, cur) {
                 return prev + cur;
               };
-
               var xBar = (xSeries.reduce(reduceSumFunc) * 1.0) / xSeries.length;
               var yBar = (ySeries.reduce(reduceSumFunc) * 1.0) / ySeries.length;
 
@@ -5053,27 +5015,22 @@ function drawHistogram() {
                   return Math.pow(d - xBar, 2);
                 })
                 .reduce(reduceSumFunc);
-
               var ssYY = ySeries
                 .map(function (d) {
                   return Math.pow(d - yBar, 2);
                 })
                 .reduce(reduceSumFunc);
-
               var ssXY = xSeries
                 .map(function (d, i) {
                   return (d - xBar) * (ySeries[i] - yBar);
                 })
                 .reduce(reduceSumFunc);
-
               var slope = ssXY / ssXX;
               var intercept = yBar - xBar * slope;
               var rSquare = Math.pow(ssXY, 2) / (ssXX * ssYY);
-
               return [slope, intercept, rSquare];
             }
 
-            // generic window resize listener event
             function handleResize() {
               if (
                 /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -5092,13 +5049,12 @@ function drawHistogram() {
 
               var smallMobile = false;
 
-              // 1. update height of step elements
               var stepHeight = 158 + "px";
-              step.style("height", stepHeight + "px");
-              // 2. update width/height of graphic element
-              var bodyWidth = d3v4.select("body").node().offsetWidth;
+              step.style("height", stepHeight);
+
+              var bodyWidth = d3.select("body").node().offsetWidth;
               graphic.style("width", bodyWidth + "px");
-              //.style('height', (container.node().offsetHeight*0.48) + 'px');
+
               var chartMargin = 32;
               var textWidth = text.node().offsetWidth;
               var chartWidth = 900;
@@ -5129,13 +5085,6 @@ function drawHistogram() {
               }
               testHeight = chartHeight;
 
-              // gY = testHeight*0.05;
-              // if(!mobile) {
-              //   gX = testWidth*0.05;
-              // } else {
-              //   gX = testWidth*0.15;
-              // }
-
               if (!mobile) {
                 xShift = Math.floor((window.innerWidth - testWidth) / 2);
                 yShift = -30;
@@ -5144,65 +5093,41 @@ function drawHistogram() {
                 yShift = -30;
               }
 
-              // if(mobile) {
-              //   xShift = Math.floor(window.innerWidth - testWidth);
-              //   yShift = -60;
-              // }
-
               svg
                 .attr("width", chartWidth + "px")
                 .attr("height", chartHeight + "px");
 
               if (!isSafari) {
                 svg.attr(
-                  "webkit-transform",
+                  "transform",
                   "translate(" + xShift + "," + yShift + ")",
                 );
               }
-
               if (!mobile) {
-                svg
-                  .attr(
-                    "moz-transform",
-                    "translate(" + xShift + "," + yShift + ")",
-                  )
-                  .attr(
-                    "ms-transform",
-                    "translate(" + xShift + "," + yShift + ")",
-                  )
-                  .attr(
-                    "transform",
-                    "translate(" + xShift + "," + yShift + ")",
-                  );
+                svg.attr(
+                  "transform",
+                  "translate(" + xShift + "," + yShift + ")",
+                );
               }
-
               buffer.style("height", chartHeight + "px");
-              // 3. tell scrollama to update new element dimensions
               scroller.resize();
             }
 
-            // scrollama event handlers
             function handleStepEnter(response) {
-              // response = { element, direction, index }
-              // add color to current step only
               step.classed("is-active", function (d, i) {
                 return i === response.index;
               });
 
               if (response.index == 0 && trigger == 1) {
-                d3v4.timeout(function () {
+                d3.timeout(function () {
                   y.domain([0, max]);
                   yGroup.transition().duration(1000).call(customYAxis);
-                  d3v4
-                    .selectAll("circle") // move the circles
+                  d3.selectAll("circle")
                     .data(usGross)
                     .transition()
                     .duration(1000)
                     .attr("cy", firstValues)
                     .attr("r", 4);
-                  // .attr('stroke', "#505050")
-                  // .attr('stroke-width', 0.1)
-                  // .attr('stroke-opacity', 0.4);
                   trendline
                     .transition()
                     .duration(1000)
@@ -5211,7 +5136,7 @@ function drawHistogram() {
                     .attr(
                       "x2",
                       x(
-                        d3v4.max(usGross, function (d) {
+                        d3.max(usGross, function (d) {
                           return d.pct_wht;
                         }),
                       ),
@@ -5219,25 +5144,23 @@ function drawHistogram() {
                     .attr(
                       "y2",
                       y(
-                        d3v4.max(usGross, function (d) {
+                        d3.max(usGross, function (d) {
                           return d.pct_wht;
                         }) *
                           slope +
                           intercept,
                       ),
                     )
-                    .attr("stroke-width", 2);
+                    .style("stroke-width", 2);
                 }, 0);
-
                 trigger = 0;
               }
 
               if (response.index == 1 && trigger == 0) {
-                d3v4.timeout(function () {
+                d3.timeout(function () {
                   y.domain([0, max / 10]);
                   yGroup.transition().duration(1000).call(customYAxis);
-                  d3v4
-                    .selectAll("circle") // move the circles
+                  d3.selectAll("circle")
                     .data(usGross)
                     .transition()
                     .duration(1000)
@@ -5245,9 +5168,6 @@ function drawHistogram() {
                       return y(d.us_gross);
                     })
                     .attr("r", 6);
-                  // .attr('stroke', "#505050")
-                  // .attr('stroke-width', 0.1)
-                  // .attr('stroke-opacity', 0.4);
                   trendline
                     .transition()
                     .duration(1000)
@@ -5256,7 +5176,7 @@ function drawHistogram() {
                     .attr(
                       "x2",
                       x(
-                        d3v4.max(usGross, function (d) {
+                        d3.max(usGross, function (d) {
                           return d.pct_wht;
                         }),
                       ),
@@ -5264,37 +5184,31 @@ function drawHistogram() {
                     .attr(
                       "y2",
                       y(
-                        d3v4.max(usGross, function (d) {
+                        d3.max(usGross, function (d) {
                           return d.pct_wht;
                         }) *
                           slope +
                           intercept,
                       ),
                     )
-                    .attr("stroke-width", 4);
+                    .style("stroke-width", 4);
                 }, 0);
-
                 trigger = 1;
               }
-              // update graphic based on step
-              // chart.select('p').text(response.index + 1)
             }
             function handleContainerEnter(response) {
-              // response = { direction }
-              // sticky the graphic (old school)
               graphic.classed("is-fixed", true);
               graphic.classed("is-bottom", false);
 
               if (trigger == 0) {
-                trendline.transition().duration(1).attr("stroke", "#505050");
-
+                trendline.transition().duration(1).style("stroke", "#505050");
                 trendline
                   .transition()
                   .duration(800)
                   .attr(
                     "x2",
                     x(
-                      d3v4.max(usGross, function (d) {
+                      d3.max(usGross, function (d) {
                         return d.pct_wht;
                       }),
                     ),
@@ -5302,7 +5216,7 @@ function drawHistogram() {
                   .attr(
                     "y1",
                     y(
-                      d3v4.max(usGross, function (d) {
+                      d3.max(usGross, function (d) {
                         return d.pct_wht;
                       }) *
                         slope +
@@ -5312,13 +5226,11 @@ function drawHistogram() {
               }
             }
             function handleContainerExit(response) {
-              // response = { direction }
-              // un-sticky the graphic, and pin to top/bottom of container
               graphic.classed("is-fixed", false);
               graphic.classed("is-bottom", response.direction === "down");
 
               if (trigger == 0) {
-                d3v4.timeout(function () {
+                d3.timeout(function () {
                   trendline
                     .transition()
                     .duration(800)
@@ -5336,14 +5248,7 @@ function drawHistogram() {
                 }, 1000);
               }
             }
-            //function init() {
             if (!mobile) {
-              // 1. force a resize on load to ensure proper dimensions are sent to scrollama
-              //    handleResize();
-
-              // 2. setup the scroller passing options
-              // this will also initialize trigger observations
-              // 3. bind scrollama event handlers (this can be chained like below)
               scroller
                 .setup({
                   container: "#scroll",
@@ -5355,9 +5260,7 @@ function drawHistogram() {
                 .onContainerEnter(handleContainerEnter)
                 .onContainerExit(handleContainerExit);
             }
-            // setup resize event
             window.addEventListener("resize", handleResize);
-
             //}
 
             // kick things off
