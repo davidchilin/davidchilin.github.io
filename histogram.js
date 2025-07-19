@@ -5119,7 +5119,7 @@ function drawHistogram() {
               });
 
               if (response.index == 0 && trigger == 1) {
-                d3.timeout(function () {
+                setTimeout(function () {
                   y.domain([0, max]);
                   yGroup.transition().duration(1000).call(customYAxis);
                   d3.selectAll("circle")
@@ -5157,7 +5157,7 @@ function drawHistogram() {
               }
 
               if (response.index == 1 && trigger == 0) {
-                d3.timeout(function () {
+                setTimeout(function () {
                   y.domain([0, max / 10]);
                   yGroup.transition().duration(1000).call(customYAxis);
                   d3.selectAll("circle")
@@ -5230,7 +5230,7 @@ function drawHistogram() {
               graphic.classed("is-bottom", response.direction === "down");
 
               if (trigger == 0) {
-                d3.timeout(function () {
+                setTimeout(function () {
                   trendline
                     .transition()
                     .duration(800)

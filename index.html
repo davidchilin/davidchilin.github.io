@@ -14,10 +14,11 @@
 
   <title>DRAFT: An Analysis of Film Dialogue by Skin Color: 2,000 scripts, 8,600 faces</title>
 
+   <!-- CHANGED: Updated Open Graph meta tags for social media sharing -->
    <meta property="og:title" content="An Analysis of Film Dialogue by Skin Color" />
    <meta property="og:site_name" content="David Chilin's github pages" />
    <meta property="og:url" content="http://davidchilin.github.io/index.html" />
-   <meta property="og:description" content="Let's see" />
+   <meta property="og:description" content="An analysis of 2,000 screenplays, breaking down dialogue by the actor's skin color." />
    <meta property="og:type" content="article" />
    <meta property="og:locale" content="en_US" />
 
@@ -25,9 +26,7 @@
    <meta property="og:image:type" content="image/png" />
    <meta property="og:image:width" content="1200" />
    <meta property="og:image:height" content="600" />
-
-   <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
-   <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
+   <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="26x50" />
    <meta property="hide-footer-recirc", content="true">
 </head>
 
@@ -45,24 +44,20 @@
   </div>
   <div class="grey-wrapper">
     <div class="opener-title-container tk-futura-pt">
-      <p class="opener-title">DRAFT: Film, Dialogue, and Colorism.
+      <p class="opener-title">Film Dialogue and Skin Color
       </p>
-      <p class="opener-title-sub">Film dialogue from 2,000 screenplays, broken down by
-      skin color and age.
+      <p class="opener-title-sub">An analysis of dialogue from 2,000 screenplays, compared by skin color.
       </p>
-      <p class="pudding-note">(NOTE: This is a replica of Pudding.cool's <a
-         href="https://pudding.cool/2017/03/film-dialogue/" style="color:black;
-               font-weight:600;">gender & film dialogue analysis</a> with a new dataset on
-           skin color. Visualization and theme/style is based on pieces by Matt Daniels, Hanah Anderson, and Champe Barton. The Pudding/Barton had no involvement in the development or publication of this specific project.)
+      <p class="pudding-note">(NOTE: This is a replica of Pudding.cool's <a href="https://pudding.cool/2017/03/film-dialogue/" style="color:black; font-weight:600;">gender & film dialogue analysis</a> with a new dataset on skin color. Visualization and theme/style is based on pieces by Matt Daniels, Hanah Anderson, and Champe Barton. The Pudding/Barton had no involvement in the development or publication of this specific project.)
       </p>
     </div>
       <div class="body-container-first tk-merriweather">
-        <div class="prose-first">Audiences.<b>Characters.</b>Question.
+        <!-- TODO: Rewrite these paragraphs to introduce your project's goals and questions about skin color in film. -->
+        <div class="prose-first">This project explores word counts and vocabulary of actors by skin color.
         </div>
-        <div class="prose-first"><b>Commentary.</b> Analysis.
+        <div class="prose-first">How does the amount of dialogue given to actors with light skin compare to those with dark skin?
         </div>
-        <div class="prose-first">This project will explore word counts and vocabulary of
-            actors by skin color.
+        <div class="prose-first">Let's analyze the data from 2,000 popular films to find out.
         </div>
       </div>
   </div>
@@ -93,21 +88,20 @@
       <div class="histogram-two-title-container">
         <p id="stage-one" class="histogram-two-big tk-futura-pt" style="color: rgb(0, 0, 0);font-weight: 600;fill: rgb(0, 0, 0);">
           <span class="disney-logo-span">
-            <svg class="disney-logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elewhite charactersts/1.1/" xmlns:cc="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xml:space="preserve" width="8.25in" height="3.4in" version="1.1" style="width: 70px;height: 34px;" viewBox="0 0 8250 3400">
-              <g id="">
-               <path id="" class="" d="M765 22c-320,9 -579,49 -637,111 -51,55 -115,101 -117,175 -2,73 83,79 135,79 52,0 99,-4 98,-35 0,-42 -68,-34 -68,-76 0,-49 265,-61 397,-61 1137,-4 2444,783 2446,1450 2,519 -673,635 -1046,636 -132,1 -261,-14 -383,-36 -5,-166 -15,-512 -20,-731 43,-1 83,-1 118,-1 275,-1 637,96 638,160 0,55 -96,93 -96,146 1,39 89,33 166,38 14,1 170,-86 169,-223 0,-182 -227,-397 -967,-395 -10,0 -21,1 -32,1 -7,-204 -37,-526 -153,-526 -96,1 -124,355 -133,551 -415,62 -784,231 -783,397 0,136 297,479 777,687 8,154 38,260 174,259 100,0 133,-73 144,-150 155,40 324,62 502,62 697,-2 1256,-374 1254,-884 -2,-684 -1383,-1668 -2584,-1635zm-187 1702c0,-119 363,-164 698,-181 -3,187 -5,456 -5,635 -412,-145 -693,-376 -693,-454z"></path>
-               <path id="" class="" d="M3598 1277c-118,1 -121,475 -124,648 -8,396 50,443 155,442 94,0 127,-11 118,-342 -14,-626 -57,-747 -149,-747z"></path>
-               <path id="" class="" d="M3659 1097c261,-1 676,-297 675,-542 0,-111 -57,-167 -200,-188 -60,-57 -148,-121 -279,-121 -406,1 -669,324 -669,500 0,65 21,145 79,212 2,140 36,177 82,177 51,0 81,-29 101,-65 58,18 128,28 211,27zm27 -199c-61,0 -111,-7 -154,-20 115,-130 394,-376 531,-376 90,-1 105,71 105,98 0,165 -337,299 -482,299zm19 -437c-125,74 -253,176 -338,279 -4,-14 -6,-27 -6,-39 -1,-79 115,-201 344,-240z"></path>
-               <path id="" class="" d="M5009 1362c-1,-109 -283,-108 -441,-107 -119,0 -723,14 -722,351 1,228 338,173 562,195 183,18 405,77 405,137 1,133 -483,187 -583,188 -205,0 -210,-59 -210,-90 0,-30 34,-81 111,-81 77,0 235,98 344,98 109,-1 201,-49 200,-98 0,-89 -362,-133 -474,-132 -117,1 -286,49 -286,225 1,91 150,308 571,306 415,-1 520,-237 519,-358 -1,-296 -280,-329 -524,-350 -182,-15 -380,-24 -379,-64 2,-135 907,-35 906,-219z"></path>
-               <path id="" class="" d="M5698 1112c-34,0 -40,36 -40,75 1,115 160,518 160,671 0,32 -3,89 -27,96 -38,11 -372,-598 -510,-607 -143,-10 -219,597 -218,747 1,150 27,250 137,250 165,-1 79,-608 146,-608 49,0 318,555 467,555 162,-1 258,-238 257,-392 -1,-353 -236,-786 -372,-786z"></path>
-               <path id="" class="" d="M6818 2052c-58,0 -381,72 -402,52 -21,-20 18,-206 59,-219 41,-13 293,-9 334,-12 117,-6 95,-165 23,-171 -37,-3 -266,-4 -278,-25 -12,-21 3,-126 29,-137 52,-21 399,-31 425,-38 43,-10 75,-33 85,-70 11,-37 -120,-188 -283,-171 -278,31 -639,29 -639,120 0,85 169,119 173,143 5,23 -22,112 -31,139 -10,30 -131,39 -139,122 -2,19 30,49 23,72 -19,71 -76,214 -76,274 1,92 68,298 258,292 298,-10 566,-218 570,-255 7,-55 -76,-119 -133,-119z"></path>
-               <path id="" class="" d="M7974 1345c-163,9 -475,354 -658,587 -11,-24 -18,-47 -18,-68 0,-98 186,-393 220,-467 36,-77 -5,-178 -49,-142 -88,71 -366,395 -365,697 0,69 18,154 57,231 -63,202 -214,653 -209,926 2,141 145,280 230,262 33,-7 40,-192 83,-318 60,-180 156,-510 190,-651 15,1 31,3 48,3 340,-1 717,-363 716,-676 -1,-312 -186,-387 -245,-383zm-391 772c136,-237 335,-551 409,-550 51,1 71,52 71,129 1,232 -280,424 -480,421z"></path>
+            <svg class="disney-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8250 3400" style="width: 70px;height: 34px;">
+              <g>
+               <path d="M765 22c-320,9 -579,49 -637,111 -51,55 -115,101 -117,175 -2,73 83,79 135,79 52,0 99,-4 98,-35 0,-42 -68,-34 -68,-76 0,-49 265,-61 397,-61 1137,-4 2444,783 2446,1450 2,519 -673,635 -1046,636 -132,1 -261,-14 -383,-36 -5,-166 -15,-512 -20,-731 43,-1 83,-1 118,-1 275,-1 637,96 638,160 0,55 -96,93 -96,146 1,39 89,33 166,38 14,1 170,-86 169,-223 0,-182 -227,-397 -967,-395 -10,0 -21,1 -32,1 -7,-204 -37,-526 -153,-526 -96,1 -124,355 -133,551 -415,62 -784,231 -783,397 0,136 297,479 777,687 8,154 38,260 174,259 100,0 133,-73 144,-150 155,40 324,62 502,62 697,-2 1256,-374 1254,-884 -2,-684 -1383,-1668 -2584,-1635zm-187 1702c0,-119 363,-164 698,-181 -3,187 -5,456 -5,635 -412,-145 -693,-376 -693,-454z"></path>
+               <path d="M3598 1277c-118,1 -121,475 -124,648 -8,396 50,443 155,442 94,0 127,-11 118,-342 -14,-626 -57,-747 -149,-747z"></path>
+               <path d="M3659 1097c261,-1 676,-297 675,-542 0,-111 -57,-167 -200,-188 -60,-57 -148,-121 -279,-121 -406,1 -669,324 -669,500 0,65 21,145 79,212 2,140 36,177 82,177 51,0 81,-29 101,-65 58,18 128,28 211,27zm27 -199c-61,0 -111,-7 -154,-20 115,-130 394,-376 531,-376 90,-1 105,71 105,98 0,165 -337,299 -482,299zm19 -437c-125,74 -253,176 -338,279 -4,-14 -6,-27 -6,-39 -1,-79 115,-201 344,-240z"></path>
+               <path d="M5009 1362c-1,-109 -283,-108 -441,-107 -119,0 -723,14 -722,351 1,228 338,173 562,195 183,18 405,77 405,137 1,133 -483,187 -583,188 -205,0 -210,-59 -210,-90 0,-30 34,-81 111,-81 77,0 235,98 344,98 109,-1 201,-49 200,-98 0,-89 -362,-133 -474,-132 -117,1 -286,49 -286,225 1,91 150,308 571,306 415,-1 520,-237 519,-358 -1,-296 -280,-329 -524,-350 -182,-15 -380,-24 -379,-64 2,-135 907,-35 906,-219z"></path>
+               <path d="M5698 1112c-34,0 -40,36 -40,75 1,115 160,518 160,671 0,32 -3,89 -27,96 -38,11 -372,-598 -510,-607 -143,-10 -219,597 -218,747 1,150 27,250 137,250 165,-1 79,-608 146,-608 49,0 318,555 467,555 162,-1 258,-238 257,-392 -1,-353 -236,-786 -372,-786z"></path>
+               <path d="M6818 2052c-58,0 -381,72 -402,52 -21,-20 18,-206 59,-219 41,-13 293,-9 334,-12 117,-6 95,-165 23,-171 -37,-3 -266,-4 -278,-25 -12,-21 3,-126 29,-137 52,-21 399,-31 425,-38 43,-10 75,-33 85,-70 11,-37 -120,-188 -283,-171 -278,31 -639,29 -639,120 0,85 169,119 173,143 5,23 -22,112 -31,139 -10,30 -131,39 -139,122 -2,19 30,49 23,72 -19,71 -76,214 -76,274 1,92 68,298 258,292 298,-10 566,-218 570,-255 7,-55 -76,-119 -133,-119z"></path>
+               <path d="M7974 1345c-163,9 -475,354 -658,587 -11,-24 -18,-47 -18,-68 0,-98 186,-393 220,-467 36,-77 -5,-178 -49,-142 -88,71 -366,395 -365,697 0,69 18,154 57,231 -63,202 -214,653 -209,926 2,141 145,280 230,262 33,-7 40,-192 83,-318 60,-180 156,-510 190,-651 15,1 31,3 48,3 340,-1 717,-363 716,-676 -1,-312 -186,-387 -245,-383zm-391 772c136,-237 335,-551 409,-550 51,1 71,52 71,129 1,232 -280,424 -480,421z"></path>
              </g>
            </svg>
-         </span>Screenplay Dialogue, Organized by Skin color
+         </span>Screenplay Dialogue, Organized by Skin Color
        </p>
-       <p id="stage-two" class="histogram-two-big film-lengths tk-futura-pt"
-       style="width:200px;">2,000 Screenplays: Dialogue Organized by Skin color
+       <p id="stage-two" class="histogram-two-big film-lengths tk-futura-pt" style="width:200px;">2,000 Screenplays: Dialogue Organized by Skin Color
        </p>
        <p id="stage-three" class="histogram-two-big tk-futura-pt" style="">Only High-Grossing Films: Ranked in the Top 2,500 by US Box Office*
        </p>
@@ -115,14 +109,14 @@
     </div>
   </div>
   <div class="body-container tk-merriweather">
-    <p class="prose">Prose Disney</a>.
+    <!-- TODO: Rewrite this section to describe your project's findings. -->
+    <p class="prose">Prose about your findings on skin color in Disney films.
     </p>
-    <p class="prose">Prose Disney
+    <p class="prose">More prose about your findings.
     </p>
   </div>
   <div class="mobile-stage-two">
-    <p id="stage-one" class="histogram-two-big film-lengths tk-futura-pt" style="">2,000
-    Screenplays: Dialogue Organized by Skin Color
+    <p id="stage-one" class="histogram-two-big film-lengths tk-futura-pt" style="">2,000 Screenplays: Dialogue Organized by Skin Color
     </p>
     <div class="filters-mobile">
       <div class="filters-row tk-futura-pt">
@@ -147,9 +141,6 @@
     </p>
     <p class="prose">Most of the processing for this project is automated, and pictures may be mis-cataloged, but in whole - over a sufficiently large dataset these discrpencies give way to the real trends present in the data. The most likely discrepency is from over-exposed and underexposed photos which directly affect lightness.
     </p>
-    <p class="prose">A sentence here ...
-    </p>
-    </p>
     <p class="tk-futura-pt prose-head">Methodology
     </p>
     <p class="prose">Daniels and Anderson mapped characters with at least 100 words of dialogue in each of the 2,000 screenplays in their database to the respective actors’ IMDB pages. Any character who failed to breach this 100 word threshold was ignored, so some films with 100% white or nonwhite dialogue may in reality contain &lt;100% one way or the other.
@@ -160,6 +151,7 @@
     </p>
     <p class="tk-futura-pt prose-head">So who has the largest word counts, who has the largest vocabulary?
     </p>
+    <!-- TODO: Rewrite this section to describe your project's analysis. -->
     <p class="prose">An interesting metric will be to compare ratios within movies, like comparing the average word count of darker vs lighter actors. This type of results within a single movie might be a bit skewed due to what I speculate is a significant overrepresentation of lighter skinned characters. I will also repeat the ratio analysis by removing the lead/leads in each movie.
     </p>
     <p class="prose">In addition, dialogue vocabulary which is heavily correlated with word count will be explored. I will compare characters with similar word counts and compare vocabulary size between darker and lighter actors.
@@ -170,7 +162,9 @@
   <div class="age-spacer">
   </div>
   <div class="age-title tk-futura-pt">
-    <p class="age-title-big"><span class="">Film Profit vs. Dialogue by Skin Lightness</p>
+    <!-- CHANGED: Updated chart title -->
+    <p class="age-title-big"><span class="">Film Profit vs. Dialogue by Skin Lightness
+    </p>
     <p class="age-title-small"><span class="">Among 2,000 Screenplays, all genres, all years
     </p>
   </div>
@@ -182,22 +176,24 @@
     <div class='scroll__text'>
       <div class="step-buffer">
       </div>
+      <!-- TODO: Update the text in these steps to tell a story about the scatter plot data. -->
       <div class='step tk-merriweather' data-step='1'>
+        <p class="prose">This chart plots each of the 2,000 films. The y-axis represents domestic box office gross, and the x-axis represents the percentage of dialogue spoken by white actors.</p>
         <p class="prose mobile-hide">An interesting metric will be to compare ratios within movies, like comparing the average word count of darker vs lighter actors. This type of results within a single movie might be a bit skewed due to what I speculate is a significant overrepresentation of lighter skinned characters. I will also repeat the ratio analysis by removing the lead/leads in each movie.</p>
         <p class="prose mobile-show">An interesting metric will be to compare ratios within movies, like comparing the average word count of darker vs lighter actors. This type of results within a single movie might be a bit skewed due to what I speculate is a significant overrepresentation of lighter skinned characters. I will also repeat the ratio analysis by removing the lead/leads in each movie.</p>
       </div>
       <div class='step tk-merriweather' data-step='2'>
-        <p class="prose mobile-hide">Test.</p>
+        <p class="prose">Here we zoom in on the lower-grossing films to see the distribution more clearly.</p>
       </div>
     </div>
   </section>
   <div class="body-container tk-merriweather">
-    <p class="tk-futura-pt prose-head">Career Arcs: Comparing Actor Age by Skin Lightness"</p>
-    <p class="prose">Daniels and Andersons also compiled and made public age data for each of the characters in the database (i.e., the age of the actor when they played the role).
+    <!-- CHANGED: Updated section title -->
+    <p class="tk-futura-pt prose-head">Career Arcs: Comparing Actor Age by Skin Lightness
+    </p>
+    <p class="prose">The original Pudding.cool project also compiled age data for each character. We can use this to see how dialogue is distributed across different age groups for white and nonwhite actors.
     </p>
   </div>
-<!--   <div class="mobile-spacer-two">
-  </div> -->
   <div class="age-title tk-futura-pt">
     <p class="age-title-big"><span class="">Percent of Dialogue by Actors&rsquo; Age
     </p>
@@ -207,23 +203,20 @@
   <div class="age-chart">
   </div>
   <div class="body-container tk-merriweather">
+    <!-- TODO: Add your findings and analysis of the age chart here. -->
     <p class="prose">Findings.
     </p>
     <p class="prose">Here&rsquo;s another look at the same data, but for every age: <span class="age-chart-two"></span>
     </p>
     <div class="mobile-spacer-two">
     </div>
-    <p class="tk-futura-pt prose-head">Some last minute housekeeping...
-    </p>
-    <p class="prose">Data.
-    </p>
-    <p class="prose">Quantity.
+    <p class="tk-futura-pt prose-head">Explore the Full Dataset
     </p>
     <p class="prose">Explore the whole dataset of characters and films by film title below:
     </p>
   </div>
   <div class="all-films-title tk-futura-pt">
-    <p class="all-films-title">All Films&rsquo; Dialogue, by Cast Member and skin-lightness
+    <p class="all-films-title">All Films&rsquo; Dialogue, by Cast Member and Skin Color
     </p>
   </div>
   <div class="all-films">
@@ -275,7 +268,6 @@
   </div>
 <div class="tooltip"></div>
 
-    <script src="https://unpkg.com/intersection-observer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollama/1.4.1/scrollama.min.js"></script>
@@ -284,7 +276,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js"></script>
-<!--  <script src="https://d3js.org/d3-axis.v1.min.js"></script>  -->
     <script src="histogram.js" type="text/javascript"></script>
-  <div class="tooltip"></div>
 </body>
+</html>
+
