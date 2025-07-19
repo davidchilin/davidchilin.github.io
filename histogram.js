@@ -2949,8 +2949,8 @@ function drawHistogram() {
                   var o1 = +a.words;
                   var o2 = +b.words;
 
-                  if (o1 < o2) return 1; // Corrected sort order for descending
-                  if (o1 > o2) return -1;
+                  if (o1 < o2) return -1; // Corrected sort order for descending
+                  if (o1 > o2) return 1;
                   return 0;
                 });
 
@@ -2973,12 +2973,10 @@ function drawHistogram() {
 
                 scriptLinesCast
                   .append("p")
-                  .attr("class", "script-lines-cast-name")
+                  .attr("class", "script-lines-cast-name") // This is the NAME element
                   .text(function (d) {
-                    if (d.imdb_character_name.length > 14) {
-                      return d.imdb_character_name.slice(0, 12) + "...";
-                    }
-                    return d.imdb_character_name;
+                    // BUG: It was incorrectly given the WORD COUNT
+                    return commaFormat(Math.round(+d.words));
                   });
 
                 scriptLinesCast
@@ -2997,9 +2995,13 @@ function drawHistogram() {
 
                 scriptLinesCast
                   .append("p")
-                  .attr("class", "script-lines-cast-amount")
+                  .attr("class", "script-lines-cast-amount") // This is the AMOUNT element
                   .text(function (d) {
-                    return commaFormat(Math.round(+d.words));
+                    // BUG: It was incorrectly given the CHARACTER NAME
+                    if (d.imdb_character_name.length > 14) {
+                      return d.imdb_character_name.slice(0, 12) + "...";
+                    }
+                    return d.imdb_character_name;
                   });
 
                 scriptLinesCastContainer
