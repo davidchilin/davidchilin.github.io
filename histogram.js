@@ -4767,8 +4767,6 @@ function drawHistogram() {
             allFilms(); // using d3 for convenience
             // using d3 for convenience
 
-            // _________________________________________________________________________________________________________________________//
-
             // gross map - DEBUGGING VERSION
 
             console.log("DEBUG: Starting 'gross map' section."); // using d3 for convenience
@@ -5153,13 +5151,3 @@ function drawHistogram() {
 }
 
 drawHistogram();
-
-// function save(){
-//
-//   csvContent = "data:text/csv;charset=utf-8,";
-//   scriptCsv.forEach(function(infoArray, index){
-//      dataString = infoArray.join(",");
-//      csvContent += dataString + "\n";
-//   });
-//   console.log("finished");
-// }
