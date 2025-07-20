@@ -152,7 +152,8 @@
     </p>
     <p class="prose">In addition, dialogue vocabulary which is heavily correlated with word count will be explored. I will compare characters with similar word counts and compare vocabulary size between darker and lighter actors.
     </p>
-    <p class="tk-futura-pt prose-head">The graph below, shows percentage of dialogue spoken by white actors against US Gross for each film, suggests no correlation at all between whiteness and profit, hinting instead at one between equality and profit.
+    <p class="tk-futura-pt prose-head">The next plot shows the relation between Domestic
+    Box Office Gross and percent dialogue spoken by white actors.
     </p>
   </div>
   <div class="age-spacer"></div>
@@ -160,14 +161,17 @@
     <!-- CHANGED: Updated chart title -->
     <p class="age-title-big"><span class="">Film Profit vs. % Dialogue by White Actors
     </p>
-    <p class="age-title-small"><span class="">Among 2,000 Screenplays, all genres, all years
-    </p>
+    <!--     <p class="age-title-small"><span class="">Among 2,000 Screenplays, all genres, all years
+    </p> -->
   </div>
 
 
 <div id="profit-viz-container"> <div id="profit-pin-container">
         <div class="profit-dialogue-container">
-            <div id="profit-plot-title">Film Profit vs. Dialogue by White Actors</div>
+    <p class="age-title-big"><span class="">Film Profit vs. % Dialogue by White Actors
+    <!--        <div id="profit-plot-title">Film Profit vs. Dialogue by White Actors</div>
+    -->
+    <p class="age-title-small"><span class="">Among 2,000 Screenplays, all genres, all years
             <div id="profit-plot"></div>
             <div id="scatter-tooltip" class="hidden">
         <p><strong><span id="title"></span></strong></p>
@@ -179,42 +183,31 @@
 
     <div class="scroll__text">
         <div class='step tk-merriweather' data-step='1'>
-            <p class="prose">
-                This scatter plot shows the relationship between a film's domestic gross and the percentage of dialogue spoken by white actors. Each circle is a movie. The trendline suggests a slight negative correlation.
+        <p class="prose">The scatter plot shows each of the 2,000 films, and their relationship between the film's domestic gross and the percentage of dialogue spoken by white actors.
+        <p class="prose">The y-axis represents domestic box office gross in Million USD, and the x-axis represents the percentage of dialogue spoken by white actors.</p>
+        <p class="prose">
+                Hovering over the circle data points will show some movie details. The trendline suggests a very slight negative correlation with
+                less gross with less white dialogue. But this correlation between
+                whiteness and profit is so slight that it hints at a different reason
+                between the disparity in dialogue between white and non white actors.
             </p>
         </div>
         <div class='step tk-merriweather' data-step='2'>
             <p class="prose">
-                Now, let's zoom in on the highest-grossing films—those earning over $400 million. Notice how the distribution changes when we only consider these blockbusters.
+                Now, let's zoom in on higher-grossing films—those earning over $100 million. Notice how the distribution changes when we only consider these blockbusters.
             </p>
+            </div>
+        <div class='step tk-merriweather' data-step='3'>
+        <p class="prose">As we zoom in on the highest-grossing films—those earning over $250 million—we see the same pattern. The trendline even suggests a slight, though not statistically significant, negative correlation. Films with more balanced dialogue do not, on average, earn less than those dominated by white actors. </p>
         </div>
     </div>
 
 </div>
 <div class="body-container tk-merriweather">
-    </div>
 
-
-  <section id='scroll'>
-    <div class='scroll__graphic'>
-      <div class='gross-chart'>
-          <div class='chart-container'></div>
-      </div>
-    </div>
-    <div class='scroll__text'>
-      <div class="step-buffer"> </div>
-      <div class='step tk-merriweather' data-step='1'>
-        <p class="prose">This chart plots each of the 2,000 films. The y-axis represents domestic box office gross, and the x-axis represents the percentage of dialogue spoken by white actors.</p>
-        <p class="prose mobile-hide">An interesting metric will be to compare ratios within movies, like comparing the average word count of darker vs lighter actors. This type of results within a single movie might be a bit skewed due to what I speculate is a significant overrepresentation of lighter skinned characters. I will also repeat the ratio analysis by removing the lead/leads in each movie.</p>
         <p class="prose mobile-show">An interesting metric will be to compare ratios within movies, like comparing the average word count of darker vs lighter actors. This type of results within a single movie might be a bit skewed due to what I speculate is a significant overrepresentation of lighter skinned characters. I will also repeat the ratio analysis by removing the lead/leads in each movie.</p>
-      </div>
-      <div class='step tk-merriweather' data-step='2'>
-        <p class="prose">As we zoom in on the highest-grossing films—those earning over $400 million—we see the same pattern. The trendline even suggests a slight, though not statistically significant, negative correlation. Films with more balanced dialogue do not, on average, earn less than those dominated by white actors.
-        </p>
-      </div>
-    </div>
-  </section>
 
+    </div>
   <div class="body-container tk-merriweather">
     <!-- CHANGED: Updated section title -->
     <p class="tk-futura-pt prose-head">Career Arcs: Comparing Actor Age by Skin Color</p>
