@@ -164,15 +164,36 @@
     </p>
   </div>
 
-<div class="profit-dialogue-container">
-    <div id="profit-plot"></div>
-    <div id="scatter-tooltip" class="hidden">
+
+<div id="profit-viz-container"> <div id="profit-pin-container">
+        <div class="profit-dialogue-container">
+            <div id="profit-plot-title">Film Profit vs. Dialogue by White Actors</div>
+            <div id="profit-plot"></div>
+            <div id="scatter-tooltip" class="hidden">
         <p><strong><span id="title"></span></strong></p>
         <p>White Actors' Dialogue: <span id="white-pct"></span></p>
         <p>Non-White Actors' Dialogue: <span id="nonwhite-pct"></span></p>
+            </div>
+        </div>
     </div>
+
+    <div class="scroll__text">
+        <div class='step tk-merriweather' data-step='1'>
+            <p class="prose">
+                This scatter plot shows the relationship between a film's domestic gross and the percentage of dialogue spoken by white actors. Each circle is a movie. The trendline suggests a slight negative correlation.
+            </p>
+        </div>
+        <div class='step tk-merriweather' data-step='2'>
+            <p class="prose">
+                Now, let's zoom in on the highest-grossing films—those earning over $400 million. Notice how the distribution changes when we only consider these blockbusters.
+            </p>
+        </div>
+    </div>
+
 </div>
-<script src="scatterplot.js"></script>
+<div class="body-container tk-merriweather">
+    </div>
+
 
   <section id='scroll'>
     <div class='scroll__graphic'>
@@ -284,6 +305,7 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js"></script>
     <script src="histogram.js" type="text/javascript"></script>
+    <script src="scatterplot.js" type="text/javascript"></script>
 </body>
 </html>
 

@@ -2969,3 +2969,8 @@ a {
      margin-left: 5px;
      vertical-align: middle;
  }
+ /* --- Pinning Styles --- */
+#profit-pin-container {
+  position: relative;
+  z-index: 1;
+}
