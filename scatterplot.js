@@ -130,6 +130,7 @@ document.addEventListener("DOMContentLoaded", function () {
               })
               .attr("r", 0)
               .on("mouseover", function (d) {
+                console.log("Hovering over:", d.title);
                 var nonWhitePct = (1 - d.pct_wht) * 100;
                 var whitePct = d.pct_wht * 100;
                 tooltip
@@ -139,6 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   .html(
                     `<strong>${d.title}</strong><p><span class="tooltip-label">NONWHITE WORDS</span><span class="tooltip-bar-container"><span class="tooltip-bar nonwhite-bar" style="width: ${nonWhitePct}%"></span></span><span class="tooltip-percentage">${d3.format(".0f")(nonWhitePct)}%</span></p><p><span class="tooltip-label">WHITE WORDS</span><span class="tooltip-bar-container"><span class="tooltip-bar white-bar" style="width: ${whitePct}%"></span></span><span class="tooltip-percentage">${d3.format(".0f")(whitePct)}%</span></p>`,
                   );
+                console.log("Tooltip node:", tooltip.node());
               })
               .on("mouseout", function () {
                 tooltip.classed("hidden", true);
