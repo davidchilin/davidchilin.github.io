@@ -2868,3 +2868,39 @@ a {
 .exclude {
     fill: white;
 }
+/* --- Scatter Plot Styles --- */
+.profit-dialogue-container {
+    font-family: 'Merriweather', serif;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+#profit-plot-title {
+    font-size: 1.5em;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+/* Style for D3 axes */
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-size: 12px;
+}
+
+.axis-label {
+    font-size: 14px;
+    font-weight: bold;
+    text-anchor: middle;
+}
+
+.trendline {
+    fill: none;
+    stroke: #e41a1c; /* A contrasting red color */
+    stroke-width: 2px;
+}

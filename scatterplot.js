@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // --- 1. SETUP ---
-  var margin = { top: 20, right: 30, bottom: 40, left: 90 };
+  var margin = { top: 20, right: 30, bottom: 80, left: 90 }; // Increased bottom margin for label
   var width = 960 - margin.left - margin.right;
   var height = 500 - margin.top - margin.bottom;
 
@@ -12,8 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  // --- 2. DATA LOADING (Nested Callbacks for D3 v3) ---
-  // Load metadata first
   d3.csv(
     "https://davidchilin.github.io/metadata_7.csv",
     function (error1, metadata) {
@@ -21,13 +18,10 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error loading metadata.csv: ", error1);
         return;
       }
-
-      // Create a map for quick title lookup
       var titleMap = d3.map(metadata, function (d) {
         return d.imdb_id;
       });
 
-      // Now load the gross data
       d3.csv(
         "https://davidchilin.github.io/usgross_mapping.csv",
         function (error2, grossData) {
@@ -36,7 +30,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
           }
 
-          // --- DATA PROCESSING ---
           var data = grossData
             .map(function (d) {
               var movieMeta = titleMap.get(d.imdb_id);
@@ -51,9 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
               return d.us_gross > 0 && d.title !== "Unknown Title";
             });
 
-          // --- 3. SCALES ---
           var x = d3.scale.linear().domain([0, 1]).range([0, width]);
-
           var y = d3.scale
             .linear()
             .domain([
@@ -64,7 +55,6 @@ document.addEventListener("DOMContentLoaded", function () {
             ])
             .range([height, 0]);
 
-          // --- 4. AXES ---
           var xAxis = d3.svg
             .axis()
             .scale(x)
@@ -83,10 +73,25 @@ document.addEventListener("DOMContentLoaded", function () {
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis);
-
           svg.append("g").attr("class", "y axis").call(yAxis);
 
-          // --- 5. DRAW CIRCLES ---
+          // Add Y-axis Label
+          svg
+            .append("text")
+            .attr("class", "axis-label")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left + 20)
+            .attr("x", 0 - height / 2)
+            .text("Domestic Box Office Gross (USD)");
+
+          // Add X-axis Label
+          svg
+            .append("text")
+            .attr("class", "axis-label")
+            .attr("y", height + margin.top + 30)
+            .attr("x", width / 2)
+            .text("Percent of Dialogue by White Actors");
+
           svg
             .append("g")
             .selectAll("dot")
@@ -102,8 +107,60 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .style("fill", "#69b3a2")
             .style("opacity", 0.7);
+
+          // --- Trendline Calculation ---
+          var xSeries = data.map(function (d) {
+            return d.pct_wht;
+          });
+          var ySeries = data.map(function (d) {
+            return d.us_gross;
+          });
+          var leastSquaresCoeff = linearRegression(ySeries, xSeries);
+
+          var x1 = d3.min(xSeries);
+          var y1 = leastSquaresCoeff.slope * x1 + leastSquaresCoeff.intercept;
+          var x2 = d3.max(xSeries);
+          var y2 = leastSquaresCoeff.slope * x2 + leastSquaresCoeff.intercept;
+
+          // Draw Trendline
+          svg
+            .append("line")
+            .attr("class", "trendline")
+            .attr("x1", x(x1))
+            .attr("y1", y(y1))
+            .attr("x2", x(x2))
+            .attr("y2", y(y2));
         },
       );
     },
   );
 });
+
+// Helper function to calculate linear regression
+function linearRegression(y, x) {
+  var lr = {};
+  var n = y.length;
+  var sum_x = 0;
+  var sum_y = 0;
+  var sum_xy = 0;
+  var sum_xx = 0;
+  var sum_yy = 0;
+
+  for (var i = 0; i < y.length; i++) {
+    sum_x += x[i];
+    sum_y += y[i];
+    sum_xy += x[i] * y[i];
+    sum_xx += x[i] * x[i];
+    sum_yy += y[i] * y[i];
+  }
+
+  lr["slope"] = (n * sum_xy - sum_x * sum_y) / (n * sum_xx - sum_x * sum_x);
+  lr["intercept"] = (sum_y - lr.slope * sum_x) / n;
+  lr["r2"] = Math.pow(
+    (n * sum_xy - sum_x * sum_y) /
+      Math.sqrt((n * sum_xx - sum_x * sum_x) * (n * sum_yy - sum_y * sum_y)),
+    2,
+  );
+
+  return lr;
+}
