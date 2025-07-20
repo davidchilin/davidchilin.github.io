@@ -18,44 +18,58 @@ document.addEventListener("DOMContentLoaded", function () {
     d3.csv("https://davidchilin.github.io/metadata_7.csv"),
   ])
     .then(function (files) {
+      // ==> LOG 1: Check if files are loaded
+      console.log("Loaded files:", files);
+
       const grossData = files[0];
       const metadata = files[1];
 
-      // Create a map for quick title lookup
       const titleMap = new Map(metadata.map((d) => [d.imdb_id, d.title]));
 
-      // Process and merge data
       const data = grossData
         .map((d) => {
           return {
             imdb_id: d.imdb_id,
-            pct_wht: +d.pct_wht,
-            us_gross: +d.us_gross,
+            pct_wht: +d.pct_wht, // Convert to number
+            us_gross: +d.us_gross, // Convert to number
             title: titleMap.get(d.imdb_id) || "Unknown Title",
           };
         })
-        .filter((d) => d.us_gross > 0 && d.title !== "Unknown Title"); // Filter out movies with no gross or title
+        .filter((d) => d.us_gross > 0 && d.title !== "Unknown Title");
+
+      // ==> LOG 2: Check the final merged data
+      console.log("Final processed data:", data);
+      console.log("Number of data points:", data.length);
+
+      // Exit if no data to plot
+      if (data.length === 0) {
+        console.error(
+          "No data available to plot after processing. Halting script.",
+        );
+        return;
+      }
 
       // --- 3. SCALES ---
-      const x = d3
-        .scaleLinear()
-        .domain([0, 1]) // pct_wht is a percentage (0 to 1)
-        .range([0, width]);
+      const x = d3.scaleLinear().domain([0, 1]).range([0, width]);
 
       const y = d3
         .scaleLinear()
         .domain([0, d3.max(data, (d) => d.us_gross)])
         .range([height, 0]);
 
+      // ==> LOG 3: Check the scale domains
+      console.log("Y-axis domain:", y.domain());
+
       // --- 4. AXES ---
+      // ... (rest of the code is likely fine if data is the issue)
       svg
         .append("g")
         .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(x).tickFormat(d3.format(".0%"))); // Format as percentage
+        .call(d3.axisBottom(x).tickFormat(d3.format(".0%")));
 
       svg
         .append("g")
-        .call(d3.axisLeft(y).tickFormat((d) => `$${d / 1000000}M`)); // Format as millions of dollars
+        .call(d3.axisLeft(y).tickFormat((d) => `$${d / 1000000}M`));
 
       // --- 5. DRAW CIRCLES ---
       svg
