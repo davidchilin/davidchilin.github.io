@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  var margin = { top: 20, right: 30, bottom: 80, left: 90 }; // Increased bottom margin for label
+  var margin = { top: 20, right: 30, bottom: 80, left: 90 };
   var width = 960 - margin.left - margin.right;
   var height = 500 - margin.top - margin.bottom;
 
@@ -44,7 +44,10 @@ document.addEventListener("DOMContentLoaded", function () {
               return d.us_gross > 0 && d.title !== "Unknown Title";
             });
 
-          var x = d3.scale.linear().domain([0, 1]).range([0, width]);
+          // --- SCALES ---
+          // 1. REVERSE X-AXIS: The range is now [width, 0] instead of [0, width]
+          var x = d3.scale.linear().domain([0, 1]).range([width, 0]); // <-- CHANGE HERE
+
           var y = d3.scale
             .linear()
             .domain([
@@ -55,6 +58,13 @@ document.addEventListener("DOMContentLoaded", function () {
             ])
             .range([height, 0]);
 
+          // 2. CREATE COLOR SCALE
+          var colorScale = d3.scale
+            .linear()
+            .domain([0, 0.5, 1]) // Data values: 0%, 50%, 100%
+            .range(["rgb(9,21,255)", "rgb(221,221,221)", "rgb(255,203,69)"]); // Corresponding colors
+
+          // --- AXES ---
           var xAxis = d3.svg
             .axis()
             .scale(x)
@@ -92,6 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .attr("x", width / 2)
             .text("Percent of Dialogue by White Actors");
 
+          // --- DRAW CIRCLES ---
           svg
             .append("g")
             .selectAll("dot")
@@ -105,7 +116,10 @@ document.addEventListener("DOMContentLoaded", function () {
             .attr("cy", function (d) {
               return y(d.us_gross);
             })
-            .style("fill", "#69b3a2")
+            // 3. APPLY COLOR SCALE
+            .style("fill", function (d) {
+              return colorScale(d.pct_wht);
+            }) // <-- CHANGE HERE
             .style("opacity", 0.7);
 
           // --- Trendline Calculation ---
@@ -122,7 +136,6 @@ document.addEventListener("DOMContentLoaded", function () {
           var x2 = d3.max(xSeries);
           var y2 = leastSquaresCoeff.slope * x2 + leastSquaresCoeff.intercept;
 
-          // Draw Trendline
           svg
             .append("line")
             .attr("class", "trendline")
@@ -136,16 +149,14 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 });
 
-// Helper function to calculate linear regression
 function linearRegression(y, x) {
   var lr = {};
   var n = y.length;
-  var sum_x = 0;
-  var sum_y = 0;
-  var sum_xy = 0;
-  var sum_xx = 0;
-  var sum_yy = 0;
-
+  var sum_x = 0,
+    sum_y = 0,
+    sum_xy = 0,
+    sum_xx = 0,
+    sum_yy = 0;
   for (var i = 0; i < y.length; i++) {
     sum_x += x[i];
     sum_y += y[i];
@@ -153,7 +164,6 @@ function linearRegression(y, x) {
     sum_xx += x[i] * x[i];
     sum_yy += y[i] * y[i];
   }
-
   lr["slope"] = (n * sum_xy - sum_x * sum_y) / (n * sum_xx - sum_x * sum_x);
   lr["intercept"] = (sum_y - lr.slope * sum_x) / n;
   lr["r2"] = Math.pow(
@@ -161,6 +171,5 @@ function linearRegression(y, x) {
       Math.sqrt((n * sum_xx - sum_x * sum_x) * (n * sum_yy - sum_y * sum_y)),
     2,
   );
-
   return lr;
 }
