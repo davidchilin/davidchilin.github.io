@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
               .attr("x", width / 2)
               .text("Percent of Dialogue by White Actors");
 
-            // --- DRAW CIRCLES ---
+            svg.append("line").attr("class", "trendline");
             svg
               .append("g")
               .attr("class", "circle-container")
@@ -143,27 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
               .duration(1000)
               .attr("r", 5);
 
-            // --- Draw Trendline ---
-            var xSeries = data.map(function (d) {
-              return d.pct_wht;
-            });
-            var ySeries = data.map(function (d) {
-              return d.us_gross;
-            });
-            var leastSquaresCoeff = linearRegression(ySeries, xSeries);
-            var x1 = d3.min(xSeries),
-              y1 = leastSquaresCoeff.slope * x1 + leastSquaresCoeff.intercept;
-            var x2 = d3.max(xSeries),
-              y2 = leastSquaresCoeff.slope * x2 + leastSquaresCoeff.intercept;
-            svg
-              .append("line")
-              .attr("class", "trendline")
-              .attr("x1", x(x1))
-              .attr("y1", y(y1))
-              .attr("x2", x(x2))
-              .attr("y2", y(y2));
-
-            // Initial drawing is done, now setup scroll interactions
+            updatePlot(1); // Draw initial trendline for step 1
             setupScroll();
           },
         );
@@ -173,26 +153,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // --- Function to update chart for zoom ---
   function updatePlot(step) {
-    var newYDomain;
-    if (step === 2) {
-      // Zoom in: Domain is from $100M to the max
-      newYDomain = [
-        100000000,
-        d3.max(data, function (d) {
-          return d.us_gross;
-        }),
-      ];
-    } else {
-      // Default/Zoom out: Domain is from 0 to the max
-      newYDomain = [
-        0,
-        d3.max(data, function (d) {
-          return d.us_gross;
-        }),
-      ];
-    }
+    var yMin = 0;
+    if (step === 2) yMin = 100000000; // $100M
+    if (step === 3) yMin = 250000000; // $250M
 
-    // Update Y scale's domain
+    var newYDomain = [
+      yMin,
+      d3.max(data, function (d) {
+        return d.us_gross;
+      }),
+    ];
     y.domain(newYDomain);
 
     // Update Y axis with a smooth transition
@@ -217,15 +187,52 @@ document.addEventListener("DOMContentLoaded", function () {
         // Hide circles that are outside the new domain by setting radius to 0
         return d.us_gross >= newYDomain[0] ? 5 : 0;
       });
+
+    // Filter data for the current view to calculate new trendline
+    var filteredData = data.filter(function (d) {
+      return d.us_gross >= yMin;
+    });
+
+    if (filteredData.length > 1) {
+      var xSeries = filteredData.map(function (d) {
+        return d.pct_wht;
+      });
+      var ySeries = filteredData.map(function (d) {
+        return d.us_gross;
+      });
+      var leastSquaresCoeff = linearRegression(ySeries, xSeries);
+      var x1 = d3.min(xSeries),
+        y1 = leastSquaresCoeff.slope * x1 + leastSquaresCoeff.intercept;
+      var x2 = d3.max(xSeries),
+        y2 = leastSquaresCoeff.slope * x2 + leastSquaresCoeff.intercept;
+
+      svg
+        .select(".trendline")
+        .style("opacity", 1)
+        .transition()
+        .duration(1000)
+        .attr("x1", x(x1))
+        .attr("y1", y(y1))
+        .attr("x2", x(x2))
+        .attr("y2", y(y2));
+    } else {
+      svg.select(".trendline").style("opacity", 0);
+    }
   }
 
   // --- Setup ScrollMagic scenes ---
   function setupScroll() {
-    // Scene 1: Pin the chart container
+    // Calculate a more precise duration to reduce the gap
+    var textHeight = document.querySelector(".scroll__text").offsetHeight;
+    var plotHeight = document.querySelector(
+      "#profit-pin-container",
+    ).offsetHeight;
+    var duration = textHeight - plotHeight + window.innerHeight;
+
     new ScrollMagic.Scene({
       triggerElement: "#profit-viz-container",
-      triggerHook: "onLeave", // Pin when the top of the container hits the top of the viewport
-      duration: document.querySelector(".scroll__text").offsetHeight, // Pin for the height of the text block
+      triggerHook: "onLeave",
+      duration: duration,
     })
       .setPin("#profit-pin-container")
       .addTo(scrollMagicController);
