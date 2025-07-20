@@ -162,23 +162,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 .style("left", d3.event.pageX + 15 + "px")
                 .style("top", d3.event.pageY - 28 + "px");
 
-              tooltip.html(`
-                 <strong>${d.title}</strong>
-                 <p>
-                     <span class="tooltip-label">NONWHITE WORDS</span>
-                     <span class="tooltip-bar-container">
-                         <span class="tooltip-bar nonwhite-bar" style="width: ${nonWhitePct}%"></span>
-                     </span>
-                     <span class="tooltip-percentage">${d3.format(".0f")(nonWhitePct)}%</span>
-                 </p>
-                 <p>
-                     <span class="tooltip-label">WHITE WORDS</span>
-                     <span class="tooltip-bar-container">
-                         <span class="tooltip-bar white-bar" style="width: ${whitePct}%"></span>
-                     </span>
-                     <span class="tooltip-percentage">${d3.format(".0f")(whitePct)}%</span>
-                 </p>
-             `);
+              tooltip.html(
+                `<strong>${d.title}</strong><p><span class="tooltip-label">NONWHITE WORDS</span><span class="tooltip-bar-container"><span class="tooltip-bar nonwhite-bar" style="width: ${nonWhitePct}%"></span></span><span class="tooltip-percentage">${d3.format(".0f")(nonWhitePct)}%</span></p><p><span class="tooltip-label">WHITE WORDS</span><span class="tooltip-bar-container"><span class="tooltip-bar white-bar" style="width: ${whitePct}%"></span></span><span class="tooltip-percentage">${d3.format(".0f")(whitePct)}%</span></p>`,
+              );
             })
             .on("mouseout", function () {
               tooltip.classed("hidden", true);
@@ -195,10 +181,12 @@ document.addEventListener("DOMContentLoaded", function () {
             return d.us_gross;
           });
           var leastSquaresCoeff = linearRegression(ySeries, xSeries);
-          var x1 = d3.min(xSeries),
-            y1 = leastSquaresCoeff.slope * x1 + leastSquaresCoeff.intercept;
-          var x2 = d3.max(xSeries),
-            y2 = leastSquaresCoeff.slope * x2 + leastSquaresCoeff.intercept;
+
+          var x1 = d3.min(xSeries);
+          var y1 = leastSquaresCoeff.slope * x1 + leastSquaresCoeff.intercept;
+          var x2 = d3.max(xSeries);
+          var y2 = leastSquaresCoeff.slope * x2 + leastSquaresCoeff.intercept;
+
           svg
             .append("line")
             .attr("class", "trendline")
@@ -213,5 +201,28 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function linearRegression(y, x) {
-  /* ... same as before ... */
+  var lr = {};
+  var n = y.length;
+  var sum_x = 0,
+    sum_y = 0,
+    sum_xy = 0,
+    sum_xx = 0,
+    sum_yy = 0;
+  for (var i = 0; i < y.length; i++) {
+    sum_x += x[i];
+    sum_y += y[i];
+    sum_xy += x[i] * y[i];
+    sum_xx += x[i] * x[i];
+    sum_yy += y[i] * y[i];
+  }
+  lr["slope"] = (n * sum_xy - sum_x * sum_y) / (n * sum_xx - sum_x * sum_x);
+  lr["intercept"] = (sum_y - lr.slope * sum_x) / n;
+  lr["r2"] = Math.pow(
+    (n * sum_xy - sum_x * sum_y) /
+      Math.sqrt((n * sum_xx - sum_x * sum_x) * (n * sum_yy - sum_y * sum_y)),
+    2,
+  );
+
+  // NEW CODE - This line was missing
+  return lr;
 }

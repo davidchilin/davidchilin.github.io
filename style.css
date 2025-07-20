@@ -2909,9 +2909,9 @@ a {
      position: absolute;
      text-align: left;
      width: auto;
-     padding: 8px 12px; /* Adjust padding */
+     padding: 8px 8px; /* Adjust padding */
      font-family: 'Merriweather', serif;
-     font-size: 12px;
+     font-size: 10px;
      background: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
      border: 1px solid #ccc;
      border-radius: 4px;
