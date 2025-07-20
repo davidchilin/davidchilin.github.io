@@ -158,15 +158,19 @@
   <div class="age-spacer"></div>
   <div class="age-title tk-futura-pt">
     <!-- CHANGED: Updated chart title -->
-    <p class="age-title-big"><span class="">Film Profit vs. Dialogue by Skin Color
+    <p class="age-title-big"><span class="">Film Profit vs. % Dialogue by White Actors
     </p>
     <p class="age-title-small"><span class="">Among 2,000 Screenplays, all genres, all years
     </p>
   </div>
 
 <div class="profit-dialogue-container">
-     <div id="profit-plot-title">Film Profit vs. % Dialogue by White Actors</div>
     <div id="profit-plot"></div>
+    <div id="scatter-tooltip" class="hidden">
+        <p><strong><span id="title"></span></strong></p>
+        <p>White Actors' Dialogue: <span id="white-pct"></span></p>
+        <p>Non-White Actors' Dialogue: <span id="nonwhite-pct"></span></p>
+    </div>
 </div>
 <script src="scatterplot.js"></script>
 

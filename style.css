@@ -2904,3 +2904,26 @@ a {
     stroke: #e41a1c; /* A contrasting red color */
     stroke-width: 2px;
 }
+/* --- Scatter Plot Tooltip Styles --- */
+#scatter-tooltip {
+    position: absolute;
+    text-align: left;
+    width: auto;
+    padding: 10px;
+    font-family: 'Merriweather', serif;
+    font-size: 12px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    pointer-events: none; /* This is important */
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+#scatter-tooltip.hidden {
+    display: none;
+}
+
+#scatter-tooltip p {
+    margin: 0;
+    padding: 2px 0;
+}

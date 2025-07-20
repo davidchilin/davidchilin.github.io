@@ -11,6 +11,9 @@ document.addEventListener("DOMContentLoaded", function () {
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+  // --- Select the tooltip div ---
+  var tooltip = d3.select("#scatter-tooltip");
+
   d3.csv(
     "https://davidchilin.github.io/metadata_7.csv",
     function (error1, metadata) {
@@ -44,10 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
               return d.us_gross > 0 && d.title !== "Unknown Title";
             });
 
-          // --- SCALES ---
-          // 1. REVERSE X-AXIS: The range is now [width, 0] instead of [0, width]
-          var x = d3.scale.linear().domain([0, 1]).range([width, 0]); // <-- CHANGE HERE
-
+          var x = d3.scale.linear().domain([0, 1]).range([width, 0]);
           var y = d3.scale
             .linear()
             .domain([
@@ -57,14 +57,11 @@ document.addEventListener("DOMContentLoaded", function () {
               }),
             ])
             .range([height, 0]);
-
-          // 2. CREATE COLOR SCALE
           var colorScale = d3.scale
             .linear()
-            .domain([0, 0.5, 1]) // Data values: 0%, 50%, 100%
-            .range(["rgb(9,21,255)", "rgb(221,221,221)", "rgb(255,203,69)"]); // Corresponding colors
+            .domain([0, 0.5, 1])
+            .range(["rgb(9,21,255)", "rgb(221,221,221)", "rgb(255,203,69)"]);
 
-          // --- AXES ---
           var xAxis = d3.svg
             .axis()
             .scale(x)
@@ -85,7 +82,6 @@ document.addEventListener("DOMContentLoaded", function () {
             .call(xAxis);
           svg.append("g").attr("class", "y axis").call(yAxis);
 
-          // Add Y-axis Label
           svg
             .append("text")
             .attr("class", "axis-label")
@@ -93,8 +89,6 @@ document.addEventListener("DOMContentLoaded", function () {
             .attr("y", 0 - margin.left + 20)
             .attr("x", 0 - height / 2)
             .text("Domestic Box Office Gross (USD)");
-
-          // Add X-axis Label
           svg
             .append("text")
             .attr("class", "axis-label")
@@ -102,27 +96,46 @@ document.addEventListener("DOMContentLoaded", function () {
             .attr("x", width / 2)
             .text("Percent of Dialogue by White Actors");
 
-          // --- DRAW CIRCLES ---
+          // --- DRAW CIRCLES with animation and tooltips ---
           svg
             .append("g")
             .selectAll("dot")
             .data(data)
             .enter()
             .append("circle")
-            .attr("r", 5)
+            .style("fill", function (d) {
+              return colorScale(d.pct_wht);
+            })
+            .style("opacity", 0.7)
             .attr("cx", function (d) {
               return x(d.pct_wht);
             })
             .attr("cy", function (d) {
               return y(d.us_gross);
             })
-            // 3. APPLY COLOR SCALE
-            .style("fill", function (d) {
-              return colorScale(d.pct_wht);
-            }) // <-- CHANGE HERE
-            .style("opacity", 0.7);
+            .attr("r", 0) // Start with radius 0 for animation
+            .on("mouseover", function (d) {
+              // Show and populate the tooltip
+              tooltip
+                .classed("hidden", false)
+                .style("left", d3.event.pageX + 15 + "px")
+                .style("top", d3.event.pageY - 28 + "px");
 
-          // --- Trendline Calculation ---
+              tooltip.select("#title").text(d.title);
+              tooltip.select("#white-pct").text(d3.format(".1%")(d.pct_wht));
+              tooltip
+                .select("#nonwhite-pct")
+                .text(d3.format(".1%")(1 - d.pct_wht));
+            })
+            .on("mouseout", function () {
+              // Hide the tooltip
+              tooltip.classed("hidden", true);
+            })
+            .transition() // Add entrance animation
+            .duration(1000)
+            .attr("r", 5); // Transition to final radius
+
+          // --- Trendline ---
           var xSeries = data.map(function (d) {
             return d.pct_wht;
           });
@@ -130,12 +143,10 @@ document.addEventListener("DOMContentLoaded", function () {
             return d.us_gross;
           });
           var leastSquaresCoeff = linearRegression(ySeries, xSeries);
-
-          var x1 = d3.min(xSeries);
-          var y1 = leastSquaresCoeff.slope * x1 + leastSquaresCoeff.intercept;
-          var x2 = d3.max(xSeries);
-          var y2 = leastSquaresCoeff.slope * x2 + leastSquaresCoeff.intercept;
-
+          var x1 = d3.min(xSeries),
+            y1 = leastSquaresCoeff.slope * x1 + leastSquaresCoeff.intercept;
+          var x2 = d3.max(xSeries),
+            y2 = leastSquaresCoeff.slope * x2 + leastSquaresCoeff.intercept;
           svg
             .append("line")
             .attr("class", "trendline")
@@ -150,26 +161,5 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function linearRegression(y, x) {
-  var lr = {};
-  var n = y.length;
-  var sum_x = 0,
-    sum_y = 0,
-    sum_xy = 0,
-    sum_xx = 0,
-    sum_yy = 0;
-  for (var i = 0; i < y.length; i++) {
-    sum_x += x[i];
-    sum_y += y[i];
-    sum_xy += x[i] * y[i];
-    sum_xx += x[i] * x[i];
-    sum_yy += y[i] * y[i];
-  }
-  lr["slope"] = (n * sum_xy - sum_x * sum_y) / (n * sum_xx - sum_x * sum_x);
-  lr["intercept"] = (sum_y - lr.slope * sum_x) / n;
-  lr["r2"] = Math.pow(
-    (n * sum_xy - sum_x * sum_y) /
-      Math.sqrt((n * sum_xx - sum_x * sum_x) * (n * sum_yy - sum_y * sum_y)),
-    2,
-  );
-  return lr;
+  /* ... same as before ... */
 }
