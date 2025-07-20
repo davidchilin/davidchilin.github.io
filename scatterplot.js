@@ -130,13 +130,16 @@ document.addEventListener("DOMContentLoaded", function () {
               })
               .attr("r", 0)
               .on("mouseover", function (d) {
-                console.log("Hovering over:", d.title);
+                var mouse = d3.mouse(svg.node());
+                var mouseX = mouse[0];
+                var mouseY = mouse[1];
                 var nonWhitePct = (1 - d.pct_wht) * 100;
                 var whitePct = d.pct_wht * 100;
+
                 tooltip
                   .classed("hidden", false)
-                  .style("left", d3.event.pageX + 15 + "px")
-                  .style("top", d3.event.pageY - 28 + "px")
+                  .style("left", mouseX + 15 + "px")
+                  .style("top", mouseY - 28 + "px")
                   .html(
                     `<strong>${d.title}</strong><p><span class="tooltip-label">NONWHITE WORDS</span><span class="tooltip-bar-container"><span class="tooltip-bar nonwhite-bar" style="width: ${nonWhitePct}%"></span></span><span class="tooltip-percentage">${d3.format(".0f")(nonWhitePct)}%</span></p><p><span class="tooltip-label">WHITE WORDS</span><span class="tooltip-bar-container"><span class="tooltip-bar white-bar" style="width: ${whitePct}%"></span></span><span class="tooltip-percentage">${d3.format(".0f")(whitePct)}%</span></p>`,
                   );
