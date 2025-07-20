@@ -135,6 +135,58 @@ document.addEventListener("DOMContentLoaded", function () {
             .duration(1000)
             .attr("r", 5); // Transition to final radius
 
+          // --- DRAW CIRCLES with animation and tooltips ---
+          svg
+            .append("g")
+            .selectAll("dot")
+            .data(data)
+            .enter()
+            .append("circle")
+            .style("fill", function (d) {
+              return colorScale(d.pct_wht);
+            })
+            .style("opacity", 0.7)
+            .attr("cx", function (d) {
+              return x(d.pct_wht);
+            })
+            .attr("cy", function (d) {
+              return y(d.us_gross);
+            })
+            .attr("r", 0)
+            .on("mouseover", function (d) {
+              var nonWhitePct = (1 - d.pct_wht) * 100;
+              var whitePct = d.pct_wht * 100;
+
+              tooltip
+                .classed("hidden", false)
+                .style("left", d3.event.pageX + 15 + "px")
+                .style("top", d3.event.pageY - 28 + "px");
+
+              tooltip.html(`
+                 <strong>${d.title}</strong>
+                 <p>
+                     <span class="tooltip-label">NONWHITE WORDS</span>
+                     <span class="tooltip-bar-container">
+                         <span class="tooltip-bar nonwhite-bar" style="width: ${nonWhitePct}%"></span>
+                     </span>
+                     <span class="tooltip-percentage">${d3.format(".0f")(nonWhitePct)}%</span>
+                 </p>
+                 <p>
+                     <span class="tooltip-label">WHITE WORDS</span>
+                     <span class="tooltip-bar-container">
+                         <span class="tooltip-bar white-bar" style="width: ${whitePct}%"></span>
+                     </span>
+                     <span class="tooltip-percentage">${d3.format(".0f")(whitePct)}%</span>
+                 </p>
+             `);
+            })
+            .on("mouseout", function () {
+              tooltip.classed("hidden", true);
+            })
+            .transition()
+            .duration(1000)
+            .attr("r", 5);
+
           // --- Trendline ---
           var xSeries = data.map(function (d) {
             return d.pct_wht;

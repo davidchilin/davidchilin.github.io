@@ -2904,26 +2904,68 @@ a {
     stroke: #e41a1c; /* A contrasting red color */
     stroke-width: 2px;
 }
-/* --- Scatter Plot Tooltip Styles --- */
-#scatter-tooltip {
-    position: absolute;
-    text-align: left;
-    width: auto;
-    padding: 10px;
-    font-family: 'Merriweather', serif;
-    font-size: 12px;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    pointer-events: none; /* This is important */
-    box-shadow: 0 0 5px rgba(0,0,0,0.2);
-}
+/* --- Scatter Plot Tooltip Styles (Updated) --- */
+ #scatter-tooltip {
+     position: absolute;
+     text-align: left;
+     width: auto;
+     padding: 8px 12px; /* Adjust padding */
+     font-family: 'Merriweather', serif;
+     font-size: 12px;
+     background: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     pointer-events: none;
+     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+ }
 
-#scatter-tooltip.hidden {
-    display: none;
-}
+ #scatter-tooltip.hidden {
+     display: none;
+ }
 
-#scatter-tooltip p {
-    margin: 0;
-    padding: 2px 0;
-}
+ #scatter-tooltip p {
+     margin: 4px 0; /* Adjust paragraph margin */
+ }
+
+ #scatter-tooltip strong {
+     font-weight: bold;
+     display: block; /* Title on a new line */
+     margin-bottom: 4px;
+ }
+
+ .tooltip-label {
+     font-weight: bold;
+     display: inline-block;
+     width: 120px; /* Adjust width for alignment */
+ }
+
+ .tooltip-bar-container {
+     display: inline-block;
+     width: 60px; /* Adjust bar width */
+     height: 10px;
+     background-color: #eee; /* Background for the bar */
+     vertical-align: middle;
+     margin-left: 5px;
+     border-radius: 2px;
+     overflow: hidden; /* Ensure the inner bar stays within */
+ }
+
+ .tooltip-bar {
+     display: block;
+     height: 100%;
+     border-radius: 2px;
+ }
+
+ .nonwhite-bar {
+     background-color: blue; /* Color for nonwhite words */
+ }
+
+ .white-bar {
+     background-color: red; /* Color for white words */
+ }
+
+ .tooltip-percentage {
+     display: inline-block;
+     margin-left: 5px;
+     vertical-align: middle;
+ }
