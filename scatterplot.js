@@ -175,9 +175,9 @@ document.addEventListener("DOMContentLoaded", function () {
   function updatePlot(step) {
     var newYDomain;
     if (step === 2) {
-      // Zoom in: Domain is from $400M to the max
+      // Zoom in: Domain is from $100M to the max
       newYDomain = [
-        400000000,
+        100000000,
         d3.max(data, function (d) {
           return d.us_gross;
         }),

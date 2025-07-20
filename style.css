@@ -2970,7 +2970,16 @@ a {
      vertical-align: middle;
  }
  /* --- Pinning Styles --- */
+ /* --- Pinning Styles --- */
 #profit-pin-container {
   position: relative;
-  z-index: 1;
+  z-index: 1; /* Assign a base stacking layer */
 }
+
+/* --- Ensure text appears on top --- */
+.scroll__text {
+    position: relative; /* Required for z-index to work */
+    z-index: 10; /* A higher number places it on top */
+    background: transparent; /* Ensure it has no background color hiding the chart */
+}
+
