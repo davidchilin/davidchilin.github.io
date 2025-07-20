@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // --- Main function to draw the chart ---
   function drawPlot(containerId) {
     // The tooltip is inside the plot container, so we select it here
-    var tooltip = d3.select(containerId).select("#scatter-tooltip");
+    var tooltip = d3.select("#scatter-tooltip");
 
     svg = d3
       .select(containerId)
