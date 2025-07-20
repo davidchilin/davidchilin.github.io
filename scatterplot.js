@@ -10,6 +10,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // --- Main function to draw the chart ---
   function drawPlot(containerId) {
+    // The tooltip is inside the plot container, so we select it here
+    var tooltip = d3.select(containerId).select("#scatter-tooltip");
+
     svg = d3
       .select(containerId)
       .append("svg")
@@ -104,7 +107,8 @@ document.addEventListener("DOMContentLoaded", function () {
               .attr("x", width / 2)
               .text("Percent of Dialogue by White Actors");
 
-            svg.append("line").attr("class", "trendline");
+            // --- CORRECTED DRAWING ORDER ---
+            // 1. Draw Circles first, so they are in the background
             svg
               .append("g")
               .attr("class", "circle-container")
@@ -143,7 +147,10 @@ document.addEventListener("DOMContentLoaded", function () {
               .duration(1000)
               .attr("r", 5);
 
-            updatePlot(1); // Draw initial trendline for step 1
+            // 2. Draw Trendline second, so it appears on top of the circles
+            svg.append("line").attr("class", "trendline");
+
+            updatePlot(1);
             setupScroll();
           },
         );
@@ -222,17 +229,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // --- Setup ScrollMagic scenes ---
   function setupScroll() {
-    // Calculate a more precise duration to reduce the gap
-    var textHeight = document.querySelector(".scroll__text").offsetHeight;
-    var plotHeight = document.querySelector(
-      "#profit-pin-container",
-    ).offsetHeight;
-    var duration = textHeight - plotHeight + window.innerHeight;
-
     new ScrollMagic.Scene({
       triggerElement: "#profit-viz-container",
       triggerHook: "onLeave",
-      duration: duration,
+      duration: document.querySelector(".scroll__text").offsetHeight,
     })
       .setPin("#profit-pin-container")
       .addTo(scrollMagicController);
@@ -240,10 +240,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Scene 2: Trigger updates on steps
     d3.selectAll(".scroll__text .step").each(function () {
       var step = d3.select(this);
-      new ScrollMagic.Scene({
-        triggerElement: this,
-        triggerHook: 0.8, // Trigger when a step is 80% from top of the viewport
-      })
+      new ScrollMagic.Scene({ triggerElement: this, triggerHook: 0.8 })
         .on("enter", function () {
           updatePlot(+step.attr("data-step"));
         })

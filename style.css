@@ -2982,4 +2982,9 @@ a {
     z-index: 10; /* A higher number places it on top */
     background: transparent; /* Ensure it has no background color hiding the chart */
 }
-
+/* --- Scatter Plot Tooltip Styles --- */
+#scatter-tooltip {
+    position: absolute;
+    /* ... other styles remain the same ... */
+    z-index: 20; /* Tooltip is layer 20 (on top of everything) */
+}
