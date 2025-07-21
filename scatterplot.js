@@ -23,132 +23,128 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var tooltip = d3.select("#scatter-tooltip");
 
-    d3.csv(
-      "https://davidchilin.github.io/metadata_7.csv",
-      function (error1, metadata) {
-        if (error1) {
-          console.error("Error loading metadata.csv: ", error1);
+    d3.csv("data_sets/metadata_7.csv", function (error1, metadata) {
+      if (error1) {
+        console.error("Error loading metadata.csv: ", error1);
+        return;
+      }
+      var titleMap = d3.map(metadata, function (d) {
+        return d.imdb_id;
+      });
+
+      d3.csv("data_sets/usgross_mapping.csv", function (error2, grossData) {
+        if (error2) {
+          console.error("Error loading usgross_mapping.csv: ", error2);
           return;
         }
-        var titleMap = d3.map(metadata, function (d) {
-          return d.imdb_id;
-        });
 
-        d3.csv(
-          "https://davidchilin.github.io/usgross_mapping.csv",
-          function (error2, grossData) {
-            if (error2) {
-              console.error("Error loading usgross_mapping.csv: ", error2);
-              return;
-            }
+        data = grossData
+          .map(function (d) {
+            var movieMeta = titleMap.get(d.imdb_id);
+            return {
+              imdb_id: d.imdb_id,
+              pct_wht: +d.pct_wht,
+              us_gross: +d.us_gross,
+              title: movieMeta ? movieMeta.title : "Unknown Title",
+            };
+          })
+          .filter(function (d) {
+            return d.us_gross > 0 && d.title !== "Unknown Title";
+          });
 
-            data = grossData
-              .map(function (d) {
-                var movieMeta = titleMap.get(d.imdb_id);
-                return {
-                  imdb_id: d.imdb_id,
-                  pct_wht: +d.pct_wht,
-                  us_gross: +d.us_gross,
-                  title: movieMeta ? movieMeta.title : "Unknown Title",
-                };
-              })
-              .filter(function (d) {
-                return d.us_gross > 0 && d.title !== "Unknown Title";
-              });
+        // --- SCALES ---
+        x = d3.scale.linear().domain([0, 1]).range([width, 0]);
+        y = d3.scale
+          .linear()
+          .domain([
+            0,
+            d3.max(data, function (d) {
+              return d.us_gross;
+            }),
+          ])
+          .range([height, 0]);
+        colorScale = d3.scale
+          .linear()
+          .domain([0, 0.5, 1])
+          .range(["rgb(9,21,255)", "rgb(221,221,221)", "rgb(255,203,69)"]);
 
-            // --- SCALES ---
-            x = d3.scale.linear().domain([0, 1]).range([width, 0]);
-            y = d3.scale
-              .linear()
-              .domain([
-                0,
-                d3.max(data, function (d) {
-                  return d.us_gross;
-                }),
-              ])
-              .range([height, 0]);
-            colorScale = d3.scale
-              .linear()
-              .domain([0, 0.5, 1])
-              .range(["rgb(9,21,255)", "rgb(221,221,221)", "rgb(255,203,69)"]);
+        // --- AXES ---
+        var xAxis = d3.svg
+          .axis()
+          .scale(x)
+          .orient("bottom")
+          .tickFormat(d3.format(".0%"));
+        var yAxis = d3.svg
+          .axis()
+          .scale(y)
+          .orient("left")
+          .tickFormat(function (d) {
+            return "$" + d / 1000000 + "M";
+          });
 
-            // --- AXES ---
-            var xAxis = d3.svg
-              .axis()
-              .scale(x)
-              .orient("bottom")
-              .tickFormat(d3.format(".0%"));
-            var yAxis = d3.svg
-              .axis()
-              .scale(y)
-              .orient("left")
-              .tickFormat(function (d) {
-                return "$" + d / 1000000 + "M";
-              });
+        svg
+          .append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + height + ")")
+          .call(xAxis);
+        svg.append("g").attr("class", "y axis").call(yAxis);
 
-            svg
-              .append("g")
-              .attr("class", "x axis")
-              .attr("transform", "translate(0," + height + ")")
-              .call(xAxis);
-            svg.append("g").attr("class", "y axis").call(yAxis);
+        svg
+          .append("text")
+          .attr("class", "axis-label")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 0 - margin.left + 20)
+          .attr("x", 0 - height / 2)
+          .text("Domestic Box Office Gross (USD)");
+        svg
+          .append("text")
+          .attr("class", "axis-label")
+          .attr("y", height + margin.top + 30)
+          .attr("x", width / 2)
+          .text("Percent of Dialogue by White Actors");
 
-            svg
-              .append("text")
-              .attr("class", "axis-label")
-              .attr("transform", "rotate(-90)")
-              .attr("y", 0 - margin.left + 20)
-              .attr("x", 0 - height / 2)
-              .text("Domestic Box Office Gross (USD)");
-            svg
-              .append("text")
-              .attr("class", "axis-label")
-              .attr("y", height + margin.top + 30)
-              .attr("x", width / 2)
-              .text("Percent of Dialogue by White Actors");
+        // --- CORRECTED DRAWING ORDER ---
+        // 1. Draw Circles first, so they are in the background
+        svg
+          .append("g")
+          .attr("class", "circle-container")
+          .selectAll("circle")
+          .data(data, function (d) {
+            return d.imdb_id;
+          }) // Key function for object constancy
+          .enter()
+          .append("circle")
+          .style("fill", function (d) {
+            return colorScale(d.pct_wht);
+          })
+          .style("opacity", 0.7)
+          .attr("cx", function (d) {
+            return x(d.pct_wht);
+          })
+          .attr("cy", function (d) {
+            return y(d.us_gross);
+          })
+          .attr("r", 0)
+          .on("mouseover", function (d) {
+            // 1. Highlight circle
+            d3.select(this)
+              .style("stroke", "black")
+              .style("stroke-width", 2)
+              .style("opacity", 1);
 
-            // --- CORRECTED DRAWING ORDER ---
-            // 1. Draw Circles first, so they are in the background
-            svg
-              .append("g")
-              .attr("class", "circle-container")
-              .selectAll("circle")
-              .data(data, function (d) {
-                return d.imdb_id;
-              }) // Key function for object constancy
-              .enter()
-              .append("circle")
-              .style("fill", function (d) {
-                return colorScale(d.pct_wht);
-              })
-              .style("opacity", 0.7)
-              .attr("cx", function (d) {
-                return x(d.pct_wht);
-              })
-              .attr("cy", function (d) {
-                return y(d.us_gross);
-              })
-              .attr("r", 0)
-              .on("mouseover", function (d) {
-                // 1. Highlight circle
-                d3.select(this)
-                  .style("stroke", "black")
-                  .style("stroke-width", 2)
-                  .style("opacity", 1);
+            var mouse = d3.mouse(d3.select("#profit-plot").node());
+            var mouseX = mouse[0];
+            var mouseY = mouse[1];
 
-                var mouse = d3.mouse(d3.select("#profit-plot").node());
-                var mouseX = mouse[0];
-                var mouseY = mouse[1];
+            var nonWhitePct = (1 - d.pct_wht) * 100;
+            var whitePct = d.pct_wht * 100;
 
-                var nonWhitePct = (1 - d.pct_wht) * 100;
-                var whitePct = d.pct_wht * 100;
-
-                tooltip
-                  .style("display", "block")
-                  .style("left", mouseX - 100 + "px")
-                  .style("top", mouseY + 15 + "px")
-                  .html(
-                    `<strong>${d.title.toUpperCase()}</strong>
+            tooltip
+              .style("display", "block")
+              .style("left", mouseX - 100 + "px")
+              .style("top", mouseY + 15 + "px")
+              .html(
+                `<strong>${d.title.toUpperCase()}</strong>
                  <div class="tooltip-gross">US Gross: ${d3.format("$,.0f")(d.us_gross / 1000000)}M</div>
                  <div class="tooltip-row">
                     <div class="tooltip-label">NONWHITE WORDS</div>
@@ -160,28 +156,26 @@ document.addEventListener("DOMContentLoaded", function () {
                     <div class="tooltip-bar" style="width: ${whitePct}px; background-color: red;"></div>
                     <div class="tooltip-percentage">${d3.format(".0f")(whitePct)}%</div>
                  </div>`,
-                  );
-              })
-              .on("mouseout", function () {
-                d3.select(this)
-                  .style("stroke", "none")
-                  .style("stroke-width", 0)
-                  .style("opacity", 0.7);
+              );
+          })
+          .on("mouseout", function () {
+            d3.select(this)
+              .style("stroke", "none")
+              .style("stroke-width", 0)
+              .style("opacity", 0.7);
 
-                tooltip.style("display", "none");
-              })
-              .transition()
-              .duration(1000)
-              .attr("r", 4);
+            tooltip.style("display", "none");
+          })
+          .transition()
+          .duration(1000)
+          .attr("r", 4);
 
-            // 2. Draw Trendline second, so it appears on top of the circles
-            svg.append("line").attr("class", "trendline");
-            updatePlot(1);
-            setupScroll();
-          },
-        );
-      },
-    );
+        // 2. Draw Trendline second, so it appears on top of the circles
+        svg.append("line").attr("class", "trendline");
+        updatePlot(1);
+        setupScroll();
+      });
+    });
   }
 
   // --- Function to update chart for zoom ---

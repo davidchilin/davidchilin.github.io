@@ -45,14 +45,11 @@ var percentFormat = d3.format(".0%");
 var commaFormat = d3.format("0,000");
 
 function drawHistogram() {
-  // d3.csv("master.csv", function(error, masterData) {
-  d3.csv("genre_mapping.csv", function (error, genreMapping) {
-    d3.csv("character_list7.csv", function (error, characterData) {
-      d3.csv("metadata_7.csv", function (error, metaData) {
-        d3.csv("DisneyFilms3.csv", function (error, disneyFilms) {
-          d3.csv("usgross_mapping.csv", function (error, usGross) {
-            //   d3.csv("lines_data.csv", function(error, lineByLine) {
-
+  d3.csv("data_sets/genre_mapping.csv", function (error, genreMapping) {
+    d3.csv("data_sets/character_list7.csv", function (error, characterData) {
+      d3.csv("data_sets/metadata_7.csv", function (error, metaData) {
+        d3.csv("data_sets/DisneyFilms3.csv", function (error, disneyFilms) {
+          d3.csv("data_sets/usgross_mapping.csv", function (error, usGross) {
             var mobileBubbleOffset = -20;
             var markerBubbleTopOffset = 34;
             var previewTopOffset = 59;
@@ -4767,9 +4764,7 @@ function drawHistogram() {
             allFilms(); // using d3 for convenience
             // using d3 for convenience
 
-            // gross map - DEBUGGING VERSION
-
-            console.log("DEBUG: Starting 'gross map' section."); // using d3 for convenience
+            // gross map
 
             var container = d3.select("#scroll");
             var graphic = container.select(".scroll__graphic");
@@ -4777,11 +4772,6 @@ function drawHistogram() {
             var text = container.select(".scroll__text");
             var step = text.selectAll(".step"); // initialize the scrollama
             var scroller = scrollama();
-
-            // --- TEST 1: Are the main containers being selected? ---
-            console.log("DEBUG: Main container selected:", container.node());
-            console.log("DEBUG: Graphic container selected:", graphic.node());
-            console.log("DEBUG: Chart container selected:", chart.node());
 
             var buffer = d3.select(".step-buffer");
 
@@ -4803,15 +4793,6 @@ function drawHistogram() {
               d.us_gross = +d.us_gross;
               d.pct_wht = +d.pct_wht;
             });
-
-            // --- TEST 2: Is the usGross data loaded and valid? ---
-            console.log(
-              "DEBUG: usGross data loaded. Number of records:",
-              usGross.length,
-            );
-            if (usGross.length > 0) {
-              console.log("DEBUG: First record of usGross data:", usGross[0]);
-            }
 
             var max = d3.max(usGross, function (d) {
               return d.us_gross;
@@ -4933,9 +4914,6 @@ function drawHistogram() {
             }
 
             function handleResize() {
-              // --- TEST 4: Is the handleResize function being called? ---
-              console.log("DEBUG: handleResize() function called.");
-
               var stepHeight = Math.floor(window.innerHeight * 0.75);
               step.style("height", stepHeight + "px");
 
@@ -5014,12 +4992,6 @@ function drawHistogram() {
             }
 
             function handleStepEnter(response) {
-              // --- TEST 5: Are the scroll events firing? ---
-              console.log(
-                "DEBUG: handleStepEnter() fired for step:",
-                response.index,
-              );
-
               step.classed("is-active", function (d, i) {
                 return i === response.index;
               });
@@ -5103,22 +5075,14 @@ function drawHistogram() {
               }
             }
             function handleContainerEnter(response) {
-              console.log(
-                "DEBUG: handleContainerEnter() fired. Chart should become visible.",
-              );
               graphic.classed("is-fixed", true);
               graphic.classed("is-bottom", false);
             }
             function handleContainerExit(response) {
-              console.log("DEBUG: handleContainerExit() fired.");
               graphic.classed("is-fixed", false);
               graphic.classed("is-bottom", response.direction === "down");
             }
             function init() {
-              // --- TEST 3: Is the init() function being called? ---
-              console.log(
-                "DEBUG: init() function called. Setting up scrollama.",
-              );
               if (!mobile) {
                 handleResize();
                 scroller
