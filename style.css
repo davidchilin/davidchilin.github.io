@@ -2996,4 +2996,54 @@ a {
     z-index: 1; /* A higher number places it on top */
     background: transparent; /* Ensure it has no background color hiding the chart */
 }
-/* --- Scatter Plot Tooltip Styles --- */
+
+/* --- Dark Theme Styles --- */
+
+/* 1. Main page background and text color */
+body {
+    background-color: #1e1e1e;
+    color: #e8e6e3; /* Off-white for better readability */
+}
+
+/* 2. Invert backgrounds of specific containers */
+.grey-wrapper,
+.header,
+.all-films-detail-data-container,
+#scatter-tooltip {
+    background-color: #1a1a1a;
+    color: #e8e6e3;
+}
+
+/* 3. Make links and titles light */
+a,
+.opener-title-sub,
+.prose-head,
+.age-title-big,
+.age-title-small,
+.all-films-title {
+    color: #e8e6e3;
+}
+
+a:hover {
+    color: #ffffff;
+}
+
+/* 4. Fix the D3 Chart Axes (profit-plot) */
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #e8e6e3; /* Change axis lines to light gray */
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    fill: #e8e6e3; /* Change axis text labels to light gray */
+    font-size: 12px;
+}
+
+.axis-label {
+    fill: #e8e6e3; /* Change main axis titles to light gray */
+    font-size: 14px;
+    font-weight: bold;
+    text-anchor: middle;
+}
