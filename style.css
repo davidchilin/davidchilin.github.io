@@ -2964,6 +2964,13 @@ a {
     margin-left: 4px;
 }
 
+.tooltip-gross {
+    display: block;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 600;
+    margin-bottom: 9px;
+}
 
  .tooltip-bar-container {
      display: inline-block;
@@ -2988,6 +2995,7 @@ a {
 #profit-pin-container {
   position: relative;
   z-index: 100000; /* Assign a base stacking layer */
+  background-color: #1e1e1e;
 }
 
 /* --- Ensure text appears on top --- */

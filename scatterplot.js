@@ -136,9 +136,10 @@ document.addEventListener("DOMContentLoaded", function () {
                   .style("stroke-width", 2)
                   .style("opacity", 1);
 
-                var mouse = d3.mouse(svg.node());
-                var mouseX = mouse[0] + margin.left;
-                var mouseY = mouse[1] + margin.top;
+                var mouse = d3.mouse(d3.select("#profit-plot").node());
+                var mouseX = mouse[0];
+                var mouseY = mouse[1];
+
                 var nonWhitePct = (1 - d.pct_wht) * 100;
                 var whitePct = d.pct_wht * 100;
 
@@ -148,16 +149,17 @@ document.addEventListener("DOMContentLoaded", function () {
                   .style("top", mouseY + "px")
                   .html(
                     `<strong>${d.title.toUpperCase()}</strong>
-         <div class="tooltip-row">
-            <div class="tooltip-label">NONWHITE WORDS</div>
-            <div class="tooltip-bar" style="width: ${nonWhitePct}px; background-color: blue;"></div>
-            <div class="tooltip-percentage">${d3.format(".0f")(nonWhitePct)}%</div>
-         </div>
-         <div class="tooltip-row">
-            <div class="tooltip-label">WHITE WORDS</div>
-            <div class="tooltip-bar" style="width: ${whitePct}px; background-color: red;"></div>
-            <div class="tooltip-percentage">${d3.format(".0f")(whitePct)}%</div>
-         </div>`,
+                 <div class="tooltip-gross">US Gross: ${d3.format("$,.0f")(d.us_gross / 1000000)}M</div>
+                 <div class="tooltip-row">
+                    <div class="tooltip-label">NONWHITE WORDS</div>
+                    <div class="tooltip-bar" style="width: ${nonWhitePct}px; background-color: blue;"></div>
+                    <div class="tooltip-percentage">${d3.format(".0f")(nonWhitePct)}%</div>
+                 </div>
+                 <div class="tooltip-row">
+                    <div class="tooltip-label">WHITE WORDS</div>
+                    <div class="tooltip-bar" style="width: ${whitePct}px; background-color: red;"></div>
+                    <div class="tooltip-percentage">${d3.format(".0f")(whitePct)}%</div>
+                 </div>`,
                   );
               })
               .on("mouseout", function () {
