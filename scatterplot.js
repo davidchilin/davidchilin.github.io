@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 var whitePct = d.pct_wht * 100;
 
                 tooltip
-                  .classed("hidden", false)
+                  .style("display", "block")
                   .style("left", mouseX + 15 + "px")
                   .style("top", mouseY - 28 + "px")
                   .html(
@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.log("Tooltip node:", tooltip.node());
               })
               .on("mouseout", function () {
-                tooltip.classed("hidden", true);
+                tooltip.style("display", "none");
               })
               .transition()
               .duration(1000)
