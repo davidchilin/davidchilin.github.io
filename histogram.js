@@ -3558,7 +3558,7 @@ function drawHistogram() {
                 3: "d",
                 4: "e",
               };
-              var bucketSelected = "a";
+              var bucketSelected = "c";
               var distributionBarWidth = 300;
               var tooltipOffset = 152;
               var detailChartDataTitleLength = 25;
@@ -4530,7 +4530,7 @@ function drawHistogram() {
                 3: "d",
                 4: "e",
               };
-              var bucketSelected = "a";
+              var bucketSelected = "c";
 
               var width = 700;
 
