@@ -165,45 +165,43 @@
     <div class="age-title tk-futura-pt"></div>
 
     <div id="profit-viz-container">
-      <div id="profit-pin-container">
-        <div class="profit-dialogue-container">
-          <div class="age-title tk-futura-pt">
-            <p class="age-title-big" style="text-align: center; margin-bottom: 0;">Film Profit vs. % Dialogue by White Actors</p>
-            <p class="age-title-small" style="text-align: center; margin-bottom: 0;">Among 2,000 Screenplays, all
-              genres, all years</p>
-          </div>
-          <div id="profit-plot">
-            <div id="scatter-tooltip" class="hidden">
-              <p><strong><span id="title"></span></strong></p>
-              <p>White Actors' Dialogue: <span id="white-pct"></span></p>
-              <p>Non-White Actors' Dialogue: <span id="nonwhite-pct"></span></p>
-            </div>
-          </div>
-        </div>
+
+  <div id="profit-pin-container">
+    <div class="profit-dialogue-container">
+      <div class="age-title tk-futura-pt">
+        <p class="age-title-big" style="text-align: center; margin-bottom: 0;">Film Profit vs. % Dialogue by White Actors</p>
+        <p class="age-title-small" style="text-align: center; margin-bottom: 0;">Among 2,000 Screenplays, all genres, all years</p>
       </div>
-
-      <div class="scrollmagic-pin-spacer">
-    <div class="body-container tk-merriweather">
-        <div class='step tk-merriweather' data-step='1'>
-          <p class="prose">Each circle on this chart represents one of the 2,000 films analyzed. The vertical position shows its domestic box office gross, while the horizontal position shows the percentage of dialogue spoken by white actors.
-          </p>
-          <p class="prose">
-            Hover over any circle to see the film's details. The trendline for the entire dataset suggests almost no correlation between a film's profit and the racial makeup of its dialogue. This indicates that the significant disparity in speaking roles is not driven by box office performance.
-          </p>
-        </div>
-
-
-        <div class='step tk-merriweather' data-step='2'>
-          <p class="prose">
-            Now, let's zoom in on higher-grossing films—those earning over $100 million. Notice how the distribution changes when we only consider these blockbusters.
-          </p>
-        </div>
-        <div class='step tk-merriweather' data-step='3'>
-          <p class="prose">Focusing further on the highest-grossing films—those earning over $250 million—we see the same pattern. The trendline even suggests a slight, though not statistically significant, negative correlation. Films with more balanced dialogue do not, on average, earn less than those dominated by white actors. </p>
-        </div>
+      <div id="profit-plot">
+        <div id="scatter-tooltip" class="hidden"></div>
       </div>
-     </div>
     </div>
+  </div>
+
+  <div class="scroll__text">
+    <div class='step tk-merriweather' data-step='1'>
+      <p class="prose">
+        Each circle on this chart represents one of the 2,000 films analyzed. The vertical position shows its domestic box office gross, while the horizontal position shows the percentage of dialogue spoken by white actors.
+      </p>
+      <p class="prose">
+        Hover over any circle to see the film's details. The trendline for the entire dataset suggests almost no correlation between a film's profit and the racial makeup of its dialogue. This indicates that the significant disparity in speaking roles is not driven by box office performance.
+      </p>
+    </div>
+
+    <div class='step tk-merriweather' data-step='2'>
+      <p class="prose">
+        Now, let's zoom in on higher-grossing films—those earning over $100 million. Notice how the distribution and trendline change when we only consider these blockbusters.
+      </p>
+    </div>
+
+    <div class='step tk-merriweather' data-step='3'>
+      <p class="prose">
+        Focusing further on the highest-grossing films—those earning over $250 million—we see the same pattern. The trendline even suggests a slight, though not statistically significant, negative correlation. Films with more balanced dialogue do not, on average, earn less than those dominated by white actors.
+      </p>
+    </div>
+  </div>
+
+</div>
 
     <div class="body-container tk-merriweather">
 
