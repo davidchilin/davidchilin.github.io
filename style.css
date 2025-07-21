@@ -2987,7 +2987,7 @@ a {
  /* --- Pinning Styles --- */
 #profit-pin-container {
   position: relative;
-  z-index: 10; /* Assign a base stacking layer */
+  z-index: 100000; /* Assign a base stacking layer */
 }
 
 /* --- Ensure text appears on top --- */
