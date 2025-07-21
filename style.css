@@ -2187,7 +2187,6 @@ text {
 .age-title-big {
     font-size: 29px;
     margin: 0px;
-    width: 630px;
     text-align: left;
     font-weight: 400;
 }
@@ -2911,12 +2910,13 @@ a {
      width: auto;
      padding: 8px 8px; /* Adjust padding */
      font-family: 'Merriweather', serif;
-     font-size: 10px;
+     font-size: 8px;
      background: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
      border: 1px solid #ccc;
      border-radius: 4px;
      pointer-events: none;
      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+     z-index: 20;
  }
 
  #scatter-tooltip.hidden {
@@ -2983,8 +2983,3 @@ a {
     background: transparent; /* Ensure it has no background color hiding the chart */
 }
 /* --- Scatter Plot Tooltip Styles --- */
-#scatter-tooltip {
-    position: absolute;
-    /* ... other styles remain the same ... */
-    z-index: 20; /* Tooltip is layer 20 (on top of everything) */
-}

@@ -130,22 +130,32 @@ document.addEventListener("DOMContentLoaded", function () {
               })
               .attr("r", 0)
               .on("mouseover", function (d) {
+                // 1. Highlight circle
+                d3.select(this)
+                  .style("stroke", "black")
+                  .style("stroke-width", 2)
+                  .style("opacity", 1);
+
                 var mouse = d3.mouse(svg.node());
-                var mouseX = mouse[0];
-                var mouseY = mouse[1];
+                var mouseX = mouse[0] + margin.left;
+                var mouseY = mouse[1] + margin.top;
                 var nonWhitePct = (1 - d.pct_wht) * 100;
                 var whitePct = d.pct_wht * 100;
 
                 tooltip
                   .style("display", "block")
                   .style("left", mouseX + 15 + "px")
-                  .style("top", mouseY - 28 + "px")
+                  .style("top", mouseY + "px")
                   .html(
-                    `<strong>${d.title}</strong><p><span class="tooltip-label">NONWHITE WORDS</span><span class="tooltip-bar-container"><span class="tooltip-bar nonwhite-bar" style="width: ${nonWhitePct}%"></span></span><span class="tooltip-percentage">${d3.format(".0f")(nonWhitePct)}%</span></p><p><span class="tooltip-label">WHITE WORDS</span><span class="tooltip-bar-container"><span class="tooltip-bar white-bar" style="width: ${whitePct}%"></span></span><span class="tooltip-percentage">${d3.format(".0f")(whitePct)}%</span></p>`,
+                    `<strong>${d.title.toUpperCase()}</strong><p><span class="tooltip-label">NONWHITE WORDS</span><span class="tooltip-bar-container"><span class="tooltip-bar nonwhite-bar" style="width: ${nonWhitePct}%"></span></span><span class="tooltip-percentage">${d3.format(".0f")(nonWhitePct)}%</span></p><p><span class="tooltip-label">WHITE WORDS</span><span class="tooltip-bar-container"><span class="tooltip-bar white-bar" style="width: ${whitePct}%"></span></span><span class="tooltip-percentage">${d3.format(".0f")(whitePct)}%</span></p>`,
                   );
-                console.log("Tooltip node:", tooltip.node());
               })
               .on("mouseout", function () {
+                d3.select(this)
+                  .style("stroke", "none")
+                  .style("stroke-width", 0)
+                  .style("opacity", 0.7);
+
                 tooltip.style("display", "none");
               })
               .transition()
@@ -154,7 +164,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // 2. Draw Trendline second, so it appears on top of the circles
             svg.append("line").attr("class", "trendline");
-
             updatePlot(1);
             setupScroll();
           },
