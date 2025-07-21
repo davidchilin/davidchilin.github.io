@@ -4,9 +4,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // D3 variables that need to be accessible across functions
   var svg, x, y, colorScale, data;
-  var margin = { top: 20, right: 30, bottom: 80, left: 90 };
-  var width = 960 - margin.left - margin.right;
-  var height = 500 - margin.top - margin.bottom;
+  var margin = { top: 20, right: 30, bottom: 70, left: 90 };
+  var width = 900 - margin.left - margin.right;
+  var height = 400 - margin.top - margin.bottom;
 
   // --- Main function to draw the chart ---
   function drawPlot(containerId) {

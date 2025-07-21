@@ -1057,17 +1057,16 @@ body {
 }
 
 .pudding-note {
-    font-weight: 300;
+    font-weight: 200;
     color: #232323;
-    font-size: 24px;
-    line-height: 1.2em;
+    font-size: 14px;
+    line-height: 1.1em;
     /* text-transform: uppercase; */
     text-align: left;
     margin: 0 auto;
     /* font-size: 43px; */
     /* text-align: center; */
     /* font-weight: 400; */
-    margin-top: 30px;
     width: 550px;
     margin-bottom: 30px;
     margin-top: 42px;
@@ -2988,13 +2987,13 @@ a {
  /* --- Pinning Styles --- */
 #profit-pin-container {
   position: relative;
-  z-index: 1; /* Assign a base stacking layer */
+  z-index: 10; /* Assign a base stacking layer */
 }
 
 /* --- Ensure text appears on top --- */
 .scroll__text {
     position: relative; /* Required for z-index to work */
-    z-index: 10; /* A higher number places it on top */
+    z-index: 1; /* A higher number places it on top */
     background: transparent; /* Ensure it has no background color hiding the chart */
 }
 /* --- Scatter Plot Tooltip Styles --- */
