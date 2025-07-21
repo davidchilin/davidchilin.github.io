@@ -3047,3 +3047,40 @@ a:hover {
     font-weight: bold;
     text-anchor: middle;
 }
+/* --- Dark Theme Fixes --- */
+
+/* 1. Fix the star-chart-container background */
+.star-chart-container {
+    /* Overrides the white-to-transparent gradient */
+    background: #1e1e1e !important;
+}
+
+/* 2. Fix black text in various sections */
+.all-films-distribution-text,
+.all-films-detail-film-title,
+.search-films input::placeholder,
+.search-films input,
+.search-label,
+.filter-item-spectrum,
+#stage-one,
+#stage-two,
+#stage-three,
+.prose b {
+    color: #e8e6e3; /* Change text to light gray */
+}
+
+/* 3. Fix the filter buttons */
+.filter-item {
+    background-color: #333; /* Dark background for buttons */
+    color: #e8e6e3;         /* Light text for buttons */
+    border-color: #555;     /* Darker border */
+}
+
+/* Style for the selected filter button */
+.filter-item-spectrum[style*="background-color: #F5F5F5"],
+.filter-item-all[style*="background-color: #F5F5F5"],
+.filter-item-era[style*="background-color: #F5F5F5"] {
+    background-color: #e8e6e3 !important; /* Light background for selected */
+    color: #1e1e1e !important;             /* Dark text for selected */
+    border-color: #e8e6e3 !important;
+}
