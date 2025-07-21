@@ -147,7 +147,17 @@ document.addEventListener("DOMContentLoaded", function () {
                   .style("left", mouseX + 15 + "px")
                   .style("top", mouseY + "px")
                   .html(
-                    `<strong>${d.title.toUpperCase()}</strong><p><span class="tooltip-label">NONWHITE WORDS</span><span class="tooltip-bar-container"><span class="tooltip-bar nonwhite-bar" style="width: ${nonWhitePct}%"></span></span><span class="tooltip-percentage">${d3.format(".0f")(nonWhitePct)}%</span></p><p><span class="tooltip-label">WHITE WORDS</span><span class="tooltip-bar-container"><span class="tooltip-bar white-bar" style="width: ${whitePct}%"></span></span><span class="tooltip-percentage">${d3.format(".0f")(whitePct)}%</span></p>`,
+                    `<strong>${d.title.toUpperCase()}</strong>
+         <div class="tooltip-row">
+            <div class="tooltip-label">NONWHITE WORDS</div>
+            <div class="tooltip-bar" style="width: ${nonWhitePct}px; background-color: blue;"></div>
+            <div class="tooltip-percentage">${d3.format(".0f")(nonWhitePct)}%</div>
+         </div>
+         <div class="tooltip-row">
+            <div class="tooltip-label">WHITE WORDS</div>
+            <div class="tooltip-bar" style="width: ${whitePct}px; background-color: red;"></div>
+            <div class="tooltip-percentage">${d3.format(".0f")(whitePct)}%</div>
+         </div>`,
                   );
               })
               .on("mouseout", function () {
@@ -160,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
               })
               .transition()
               .duration(1000)
-              .attr("r", 5);
+              .attr("r", 4);
 
             // 2. Draw Trendline second, so it appears on top of the circles
             svg.append("line").attr("class", "trendline");
@@ -206,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .attr("r", function (d) {
         // Hide circles that are outside the new domain by setting radius to 0
-        return d.us_gross >= newYDomain[0] ? 5 : 0;
+        return d.us_gross >= newYDomain[0] ? 4 : 0;
       });
 
     // Filter data for the current view to calculate new trendline

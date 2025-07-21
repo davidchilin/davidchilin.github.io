@@ -2879,6 +2879,10 @@ a {
     font-weight: 700;
     margin-bottom: 1rem;
 }
+/* --- Scatter Plot Circle Hover Style --- */
+#profit-plot .circle-container circle:hover {
+    cursor: pointer;
+}
 
 /* Style for D3 axes */
 .axis path,
@@ -2905,19 +2909,18 @@ a {
 }
 /* --- Scatter Plot Tooltip Styles (Updated) --- */
  #scatter-tooltip {
-     position: absolute;
-     text-align: left;
-     width: auto;
-     padding: 8px 8px; /* Adjust padding */
-     font-family: 'Merriweather', serif;
-     font-size: 8px;
-     background: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
-     border: 1px solid #ccc;
-     border-radius: 4px;
-     pointer-events: none;
-     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-     z-index: 20;
- }
+    position: absolute;
+    display: none; /* Controlled by JS */
+    width: auto;
+    background-color: rgb(255, 255, 255);
+    padding: 5px 8px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.04);
+    border-radius: 3px;
+    border: 1px solid rgba(155, 154, 165, 0.25);
+    z-index: 20;
+    pointer-events: none;
+    font-family: 'tk-futura-pt', sans-serif; /* Using the same font family */
+}
 
  #scatter-tooltip.hidden {
      display: none;
@@ -2927,17 +2930,41 @@ a {
      margin: 4px 0; /* Adjust paragraph margin */
  }
 
- #scatter-tooltip strong {
-     font-weight: bold;
-     display: block; /* Title on a new line */
-     margin-bottom: 4px;
- }
+#scatter-tooltip strong {
+    display: block;
+    text-align: center; /* Center the title */
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 9px;
+}
 
- .tooltip-label {
-     font-weight: bold;
-     display: inline-block;
-     width: 120px; /* Adjust width for alignment */
- }
+.tooltip-row {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Vertically align items in the middle */
+    height: 15px;
+}
+
+.tooltip-label {
+    width: 90px;
+    text-align: right; /* Right-justify the label */
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-right: 4px;
+}
+
+.tooltip-bar {
+    height: 10px;
+    /* Width and color are set by JS */
+}
+
+.tooltip-percentage {
+    font-size: 10px;
+    font-weight: 500;
+    margin-left: 4px;
+}
+
 
  .tooltip-bar-container {
      display: inline-block;
@@ -2950,12 +2977,6 @@ a {
      overflow: hidden; /* Ensure the inner bar stays within */
  }
 
- .tooltip-bar {
-     display: block;
-     height: 100%;
-     border-radius: 2px;
- }
-
  .nonwhite-bar {
      background-color: blue; /* Color for nonwhite words */
  }
@@ -2964,12 +2985,6 @@ a {
      background-color: red; /* Color for white words */
  }
 
- .tooltip-percentage {
-     display: inline-block;
-     margin-left: 5px;
-     vertical-align: middle;
- }
- /* --- Pinning Styles --- */
  /* --- Pinning Styles --- */
 #profit-pin-container {
   position: relative;
