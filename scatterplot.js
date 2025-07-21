@@ -145,8 +145,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 tooltip
                   .style("display", "block")
-                  .style("left", mouseX + 15 + "px")
-                  .style("top", mouseY + "px")
+                  .style("left", mouseX - 100 + "px")
+                  .style("top", mouseY + 15 + "px")
                   .html(
                     `<strong>${d.title.toUpperCase()}</strong>
                  <div class="tooltip-gross">US Gross: ${d3.format("$,.0f")(d.us_gross / 1000000)}M</div>

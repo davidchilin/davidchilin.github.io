@@ -1062,7 +1062,7 @@ body {
     font-size: 14px;
     line-height: 1.1em;
     /* text-transform: uppercase; */
-    text-align: left;
+    text-align: center;
     margin: 0 auto;
     /* font-size: 43px; */
     /* text-align: center; */
@@ -2461,12 +2461,6 @@ a {
     margin-top: 14px;
   }
 
-  .pudding-note{
-    width: 95%;
-    font-size: 27px;
-    margin-top: 14px;
-  }
-
   .film-element-text{
     width: 142px;
     /* text-align: right; */
@@ -2765,10 +2759,6 @@ a {
 }
 @media (max-width: 325px) {
   .opener-title-sub{
-    font-size: 25px;
-  }
-
-  .pudding-note{
     font-size: 25px;
   }
 
