@@ -88,9 +88,7 @@ results here be considered with that in mind.
     means lighter color. The von Luschan scale (vL) is presented below and is a
     way to categorize the worlds variety of skin colors.
 
-<div style="text-align: center;">
 <img src="movie_words/Felix_von_Luschan_Skin_Color_chart.svg" align="center" />
-</div>
 
 - K-means was used again to categorize each of the 8612 images into one of the
   36 von Luschan categories.
@@ -105,7 +103,7 @@ results here be considered with that in mind.
   compared to lighter than actual. This looks to be due to faces being in
   shadows for 4 or 5 of the 10 presented here.
 
-<div style="text-align: center;"><img src="movie_words/outliers_L.jpg" width="500" height="100" class="jop-noMdConv"></div>
+<img src="movie_words/outliers_L.jpg" width="500" height="100" align="center">
 
 - This image represents the whole dataset. Each pixel is the average skin color
   for each of the 8612 actors from darkest to lightest.
@@ -146,7 +144,7 @@ results here be considered with that in mind.
   would be recommended to use a more general color scale like Fitzpatrick with 6
   groups
 
-<div style="text-align: center;"><img src="movie_words/roles_by_von_luschan.png" width="600" height="353" class="jop-noMdConv"></div><div style="text-align: right;"><img src="movie_words/ref_tile.jpg" width="498" height="25" class="jop-noMdConv"></div><div style="text-align: right;"><img src="movie_words/my_tiles2.jpg" width="500" height="250" class="jop-noMdConv"></div>
+<div style="text-align: center;"><img src="movie_words/roles_by_von_luschan.png" width="600" height="353" ></div><div style="text-align: right;"><img src="movie_words/ref_tile.jpg" width="498" height="25" ></div><div style="text-align: right;"><img src="movie_words/my_tiles2.jpg" width="500" height="250" ></div>
 
 - The tiled image above shows which faces are categorized into each group;
   miscategorizations are visible but the the idea is that enough are categorized
@@ -190,7 +188,7 @@ results here be considered with that in mind.
 - This plots shows the distribution of words per role in each von Luschan
   category.
 
-<img src="movie_words/wordroles_by_von_luschen.png" width="599" height="369" class="jop-noMdConv">
+<img src="movie_words/wordroles_by_von_luschen.png" width="599" height="369">
 
 **Words by von Luschan and Lightness (dot plot - outliers > 3 Std Dev removed,
 416 rows)**
@@ -201,7 +199,7 @@ results here be considered with that in mind.
   of all words, (15, 17, 21): 9%, (22, 23):30%, 24:41%, 25:10%, (26, 27):7%
   (28-34):3%
 
-<img src="movie_words/wordroles_by_von_luschen_cut.png" width="601" height="371" class="jop-noMdConv">
+<img src="movie_words/wordroles_by_von_luschen_cut.png" width="601" height="371" >
 
 | fit_vL | roles | avg_words | pct_all_words |
 | ------ | ----- | --------- | ------------- |
@@ -235,7 +233,8 @@ results here be considered with that in mind.
 - **It is interesting to note that the darkest group (34) had the highest
   average word count (1112) per role (7 roles).**
 
-<img src="movie_words/avg_words_by_von_luschen_cut.png" width="600" height="371" class="jop-noMdConv">
+<img src="movie_words/avg_words_by_von_luschen_cut.png" width="600" height="371"
+align="center">
 
 ---
 
