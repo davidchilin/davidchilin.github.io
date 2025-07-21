@@ -2991,10 +2991,11 @@ a {
 }
 
 /* --- Ensure text appears on top --- */
-.scroll__text {
-    position: relative; /* Required for z-index to work */
-    z-index: 1; /* A higher number places it on top */
-    background: transparent; /* Ensure it has no background color hiding the chart */
+/* This NEW rule targets ONLY the profit-plot's text */
+#profit-viz-container .scroll__text {
+    margin-top: -100vh; /* Pulls the text up to overlap the chart */
+    z-index: 1;         /* Ensures it scrolls behind the chart */
+    background: transparent;
 }
 
 /* --- Dark Theme Styles --- */
