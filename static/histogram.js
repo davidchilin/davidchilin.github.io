@@ -45,11 +45,11 @@ var percentFormat = d3.format(".0%");
 var commaFormat = d3.format("0,000");
 
 function drawHistogram() {
-  d3.csv("data_sets/genre_mapping.csv", function (error, genreMapping) {
-    d3.csv("data_sets/character_list7.csv", function (error, characterData) {
-      d3.csv("data_sets/metadata_7.csv", function (error, metaData) {
-        d3.csv("data_sets/DisneyFilms3.csv", function (error, disneyFilms) {
-          d3.csv("data_sets/usgross_mapping.csv", function (error, usGross) {
+  d3.csv("../data_sets/genre_mapping.csv", function (error, genreMapping) {
+    d3.csv("../data_sets/character_list7.csv", function (error, characterData) {
+      d3.csv("../data_sets/metadata_7.csv", function (error, metaData) {
+        d3.csv("../data_sets/DisneyFilms3.csv", function (error, disneyFilms) {
+          d3.csv("../data_sets/usgross_mapping.csv", function (error, usGross) {
             var mobileBubbleOffset = -20;
             var markerBubbleTopOffset = 34;
             var previewTopOffset = 59;

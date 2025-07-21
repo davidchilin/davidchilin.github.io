@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var tooltip = d3.select("#scatter-tooltip");
 
-    d3.csv("data_sets/metadata_7.csv", function (error1, metadata) {
+    d3.csv("../data_sets/metadata_7.csv", function (error1, metadata) {
       if (error1) {
         console.error("Error loading metadata.csv: ", error1);
         return;
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return d.imdb_id;
       });
 
-      d3.csv("data_sets/usgross_mapping.csv", function (error2, grossData) {
+      d3.csv("../data_sets/usgross_mapping.csv", function (error2, grossData) {
         if (error2) {
           console.error("Error loading usgross_mapping.csv: ", error2);
           return;

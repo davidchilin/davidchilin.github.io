@@ -69,11 +69,11 @@ Datasets downloaded from: https://champebarton.github.io
 The pixels outside the oval have been set to the average skin color in the
 picture below.
 
-![movie_words/TEMP3_tiled_avg_ellipse_fix.jpg](:/dd891c7b9c4a4e868d044dc8fafd6088)
+<img src="movie_words/TEMP3_tiled_avg_ellipse_fix.jpg" align="center" />
 
 The non-skin pixels have been set to blue in the example below.
 
-![movie_words/TEMP3_tiled_k2_v14.jpg](:/3f1e920b138149dda31373562c1951ec)
+<img src="movie_words/TEMP3_tiled_k2_v14.jpg" align="center" />
 
 There are definetly pictures that were mischaracterized and many more where
 lighting conditions saturate the portrait with too much light or shadow -
@@ -89,9 +89,7 @@ results here be considered with that in mind.
     way to categorize the worlds variety of skin colors.
 
 <div style="text-align: center;">
-
-![movie_words/Felix_von_Luschan_Skin_Color_chart.svg](:/785262c79d884d7ab8ecec5be2c8ed75)
-
+<img src="movie_words/Felix_von_Luschan_Skin_Color_chart.svg" align="center" />
 </div>
 
 - K-means was used again to categorize each of the 8612 images into one of the
@@ -114,7 +112,7 @@ results here be considered with that in mind.
 
 <div style="text-align: center;">
 
-![movie_words/ALL_pixels_bgr_skin_color_v14_03232021.png](:/82402d6bb4404ab09a390547e2c5c101)
+<img src="movie_words/ALL_pixels_bgr_skin_color_v14_03232021.png" width="50%" align="center" />
 
 </div>
 
@@ -126,7 +124,7 @@ results here be considered with that in mind.
 
 - Movie releases are heavily skewed toward 1990 and after (77% of entries).
 
-![movie_words/movie_release_year_histogram.png](:/15f21bfcf8194c2a914fad9430f6e9c3)
+<img src="movie_words/movie_release_year_histogram.png" align="center" />
 
 | Year        | %   |
 | ----------- | --- |
@@ -148,7 +146,7 @@ results here be considered with that in mind.
   would be recommended to use a more general color scale like Fitzpatrick with 6
   groups
 
-<div style="text-align: center;"><img src="movie_words/roles_by_von_luschan.png" width="600" height="353" class="jop-noMdConv"></div><div style="text-align: center;"><img src="movie_words/ref_tile.jpg" width="498" height="25" class="jop-noMdConv"></div><div style="text-align: center;"><img src="movie_words/my_tiles2.jpg" width="500" height="250" class="jop-noMdConv"></div>
+<div style="text-align: center;"><img src="movie_words/roles_by_von_luschan.png" width="600" height="353" class="jop-noMdConv"></div><div style="text-align: right;"><img src="movie_words/ref_tile.jpg" width="498" height="25" class="jop-noMdConv"></div><div style="text-align: right;"><img src="movie_words/my_tiles2.jpg" width="500" height="250" class="jop-noMdConv"></div>
 
 - The tiled image above shows which faces are categorized into each group;
   miscategorizations are visible but the the idea is that enough are categorized
@@ -230,7 +228,7 @@ results here be considered with that in mind.
 
 ### Averge Words by von Luschan
 
-![movie_words/avg_words_by_von_luschen.png](:/1717746e0fcd4b31aa8414f70ad6eefa)
+<img src="movie_words/avg_words_by_von_luschen.png" align="center" />
 
 **Averge Words by von Luschan (outliers > 3 Std Deviations removed, 416 rows)**
 
@@ -243,13 +241,12 @@ results here be considered with that in mind.
 
 ### Average Word count by von Luschan group
 
-![movie_words/avg_words_count_by_von_luschen_cut.png](:/f4c149f593af46baa28a7cd469fcc291)
+<img src="movie_words/avg_words_count_by_von_luschen_cut.png" align="center" />
 
 ### Average Word count % by von Luschan group
 
-![movie_words/avg_words_count_percent_by_von_luschen_cut.png](:/da167213f8544f6f85d2b032056b6c04)
+<img src="movie_words/avg_words_count_percent_by_von_luschen_cut.png" align="center" />
 
 ### Word count and average words by Lightness
 
-![movie_words/words_count_avg_by_lightness.png](:/c861cd9f2c4d4d0aa89035ecd8a30d75)
-
+<img src="movie_words/words_count_avg_by_lightness.png" align="center" />
