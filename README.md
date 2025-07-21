@@ -90,7 +90,7 @@ results here be considered with that in mind.
 
 <div style="text-align: center;">
 
-![Felix_von_Luschan_Skin_Color_chart.svg](:/785262c79d884d7ab8ecec5be2c8ed75)
+![movie_words/Felix_von_Luschan_Skin_Color_chart.svg](:/785262c79d884d7ab8ecec5be2c8ed75)
 
 </div>
 
