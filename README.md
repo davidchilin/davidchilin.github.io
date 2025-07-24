@@ -7,7 +7,9 @@
   - [Overview of basic data](#overview-of-basic-data)
   - [Word distribution](#word-distribution)
 
-# 1. Introduction [version with viz: davidchilin.github.io](https://davidchilin.github.io)
+# 1. Introduction 
+
+[viz version: davidchilin.github.io](https://davidchilin.github.io)
 
 This is an old project and figured I might as well upload. Movie_Words is based
 on
